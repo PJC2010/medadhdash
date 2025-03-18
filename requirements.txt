@@ -3,3 +3,5 @@ numpy
 streamlit 
 plotly_express==0.4.1   
 datetime
+google.oauth2
+google.cloud
