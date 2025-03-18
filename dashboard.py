@@ -141,8 +141,9 @@ date_range = st.sidebar.selectbox(
     "Select Time Period",
     ["Year to Date", "Last Quarter", "Last Month", "Last Week"]
 )
-def get_star_rating(value, measure, thresholds):
+def get_star_rating(value, measure):
     """Determine star rating based on value and thresholds"""
+    global thresholds
     if value >= thresholds[measure]["5-Stars"]:
         return "5-Stars"
     elif value >= thresholds[measure]["4-Stars"]:
