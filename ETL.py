@@ -26,7 +26,7 @@ CSV_OUTPUT_DIRECTORY = r"C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD
 ARCHIVE_DIRECTORY = r"C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive"   # Directory to archive original files
 ERROR_DIRECTORY = r"C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Errors"   # Directory for files that failed processin
 
-CREDENTIALS_PATH = 'medadhdata2025-6e124598af28.json'
+CREDENTIALS_PATH = 'medadhdata2025-ce0f2b2ff824.json'
 PROJECT_ID = 'medadhdata2025'
 DATASET_NAME = "adherence_tracking"
 TABLE_NAME = "weekly_med_adherence_data"
@@ -79,7 +79,8 @@ class ExcelProcessor:
                 bigquery.SchemaField("MedAdherenceMeasureCode", "STRING"),
                 bigquery.SchemaField("NDCDesc", "STRING"),
                 bigquery.SchemaField("UPID", "STRING"),
-                bigquery.SchemaField("loaded_timestamp", "TIMESTAMP")
+                bigquery.SchemaField("loaded_timestamp", "TIMESTAMP"),
+                bigquery.SchemaField("UGID", "STRING"),
             ]
             
             table_id = f"{dataset_id}.{TABLE_NAME}"
@@ -146,6 +147,13 @@ class ExcelProcessor:
                              str((row['DateOfBirth']) if pd.notnull(row['DateOfBirth']) else ''),
                 axis=1
             )
+            logger.info("Creating UGID field")
+            processed_df['UGID'] = processed_df.apply(
+                lambda row: str(row['PayerCode']) + 
+                             str(row['PayerMemberId']) + 
+                             str(row['MedAdherenceMeasureCode']),
+                axis=1
+            )
             
             date_columns = [
                 'DataAsOfDate', 'DateOfBirth', 'InitialFillDate', 
@@ -159,6 +167,7 @@ class ExcelProcessor:
             processed_df['data_week'] = datetime.now().date()
             
             processed_df['loaded_timestamp'] = datetime.now()
+            processed_df['PayerMemberId'] = processed_df['PayerMemberId'].astype(str)
             
             logger.info(f"DataFrame has {len(processed_df.columns)} columns after processing: {list(processed_df.columns)}")
             
@@ -200,7 +209,7 @@ class ExcelProcessor:
             "InitialFillDate", "LastFillDate", "NextFillDate", 
             "LastImpactableDate", "OneFillCode", "DrugDispensedQuantityNbr", 
             "DrugDispensedDaysSupplyNbr", "MedAdherenceMeasureCode", 
-            "NDCDesc", "UPID", "loaded_timestamp"
+            "NDCDesc", "UPID", "UGID", "loaded_timestamp"
         ]
         
         upload_df = pd.DataFrame()
@@ -255,6 +264,7 @@ class ExcelProcessor:
             "MedAdherenceMeasureCode": "STRING",
             "NDCDesc": "STRING",
             "UPID": "STRING",
+            "UGID": "STRING",
             "loaded_timestamp": "TIMESTAMP"
         }
         

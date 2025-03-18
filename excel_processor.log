@@ -1170,3 +1170,1441 @@ Name: LastImpactableDate, dtype: datetime64[ns]
 2025-03-17 22:29:38,206 - ExcelProcessor - INFO - Loaded 70252 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
 2025-03-17 22:29:38,206 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.12.2025.xlsx
 2025-03-17 22:29:38,216 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:01:35,328 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:01:35,557 - ExcelProcessor - ERROR - Error creating BigQuery resources: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:01:35,563 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:03:06,063 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:03:06,091 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:03:06,092 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:03:08,305 - ExcelProcessor - ERROR - Error reading MASTER sheet: Worksheet named 'MASTER' not found
+2025-03-18 15:06:29,283 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:06:29,499 - ExcelProcessor - ERROR - Error creating BigQuery resources: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:06:29,515 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:07:16,050 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:07:16,069 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:07:16,070 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:07:18,249 - ExcelProcessor - INFO - Successfully read MASTER sheet with 4123 rows and 29 columns
+2025-03-18 15:07:18,250 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:07:18,252 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:18,254 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:18,255 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:18,256 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:18,361 - ExcelProcessor - INFO - DataFrame has 29 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:18,362 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.22.2025_processed.csv
+2025-03-18 15:07:18,468 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.22.2025_processed.csv to BigQuery
+2025-03-18 15:07:18,468 - ExcelProcessor - INFO - DataFrame has 29 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:18,471 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:18,473 - ExcelProcessor - INFO - Converting ADRNbr from int64 to integer
+2025-03-18 15:07:18,474 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    61
+1    65
+2    65
+3    65
+4    65
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:18,482 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:18,495 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-01-17
+1   2025-01-17
+2   2025-01-17
+3   2025-01-17
+4   2025-01-17
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:18,504 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1966-10-15
+1   1949-11-03
+2   1960-12-02
+3   1960-12-02
+4   1960-12-02
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:18,514 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:18,525 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-03
+2   2025-01-03
+3   2025-01-03
+4   2025-01-03
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:18,533 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-01-10
+2   2025-01-10
+3   2025-01-10
+4   2025-01-10
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:18,544 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-19
+1   2025-03-23
+2   2025-03-23
+3   2025-03-23
+4   2025-03-23
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:18,786 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:07:18,787 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:07:18,804 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:07:18,806 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:07:18,817 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:07:18,818 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:07:20,883 - ExcelProcessor - INFO - Successfully read MASTER sheet with 11324 rows and 29 columns
+2025-03-18 15:07:20,883 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:07:20,886 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:20,893 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:20,897 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:20,901 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:21,231 - ExcelProcessor - INFO - DataFrame has 29 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:21,231 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.29.2025_processed.csv
+2025-03-18 15:07:21,591 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.29.2025_processed.csv to BigQuery
+2025-03-18 15:07:21,592 - ExcelProcessor - INFO - DataFrame has 29 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:21,596 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:21,600 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:07:21,602 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    72
+1    72
+2    71
+3    71
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:21,628 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:21,674 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-01-29
+1   2025-01-29
+2   2025-01-29
+3   2025-01-29
+4   2025-01-29
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:21,720 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1956-08-10
+1   1956-08-10
+2   1971-04-09
+3   1971-04-09
+4   1952-07-12
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:21,726 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:21,772 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-02
+1   2025-01-03
+2   2025-01-10
+3   2025-01-10
+4   2025-01-09
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:21,822 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-31
+1   2025-02-01
+2   2025-02-06
+3   2025-02-06
+4   2025-02-07
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:21,864 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-04-13
+1   2025-04-14
+2   2025-04-18
+3   2025-04-18
+4   2025-04-19
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:21,989 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:07:21,991 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:07:22,000 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:07:22,005 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:07:22,025 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:07:22,026 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:07:25,896 - ExcelProcessor - INFO - Successfully read MASTER sheet with 14813 rows and 29 columns
+2025-03-18 15:07:25,896 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:07:25,898 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:25,901 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:25,905 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:25,909 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:26,292 - ExcelProcessor - INFO - DataFrame has 29 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:26,293 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv
+2025-03-18 15:07:26,665 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv to BigQuery
+2025-03-18 15:07:26,666 - ExcelProcessor - INFO - DataFrame has 29 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:26,671 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:26,676 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:07:26,678 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    67
+1    70
+2    68
+3    67
+4    68
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:26,704 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:26,746 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-02
+1   2025-02-02
+2   2025-02-02
+3   2025-02-02
+4   2025-02-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:26,793 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1957-10-06
+1   1943-07-18
+2   1938-02-06
+3   1965-01-20
+4   1959-02-20
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:26,797 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:26,838 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-28
+1   2025-01-13
+2   2025-01-22
+3   2025-01-30
+4   2025-01-23
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:26,873 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-04-28
+1   2025-04-13
+2   2025-04-22
+3   2025-03-01
+4   2025-02-22
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:26,910 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-04
+1   2025-06-22
+2   2025-06-29
+3   2025-05-07
+4   2025-05-01
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:27,025 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:07:27,027 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:07:27,038 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:07:27,042 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:07:27,050 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:07:27,050 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:07:31,905 - ExcelProcessor - INFO - Successfully read MASTER sheet with 18235 rows and 29 columns
+2025-03-18 15:07:31,906 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:07:31,908 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:31,915 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:31,922 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:31,927 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:32,331 - ExcelProcessor - INFO - DataFrame has 29 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:32,332 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.12.2025_processed.csv
+2025-03-18 15:07:32,732 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.12.2025_processed.csv to BigQuery
+2025-03-18 15:07:32,732 - ExcelProcessor - INFO - DataFrame has 29 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:32,735 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:32,738 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:07:32,739 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    71
+1    69
+2    68
+3    71
+4    72
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:32,755 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:32,787 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-10
+1   2025-02-10
+2   2025-02-10
+3   2025-02-10
+4   2025-02-10
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:32,821 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1947-10-29
+1   1961-09-06
+2   1959-12-10
+3   1959-12-10
+4   1957-04-29
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:32,824 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:32,850 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-31
+1   2025-01-18
+2   2025-01-26
+3   2025-01-10
+4   2025-01-02
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:32,900 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-01
+1   2025-02-15
+2   2025-02-25
+3   2025-04-10
+4   2025-04-02
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:32,957 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-11
+1   2025-04-25
+2   2025-05-04
+3   2025-06-20
+4   2025-06-13
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:33,108 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:07:33,110 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:07:33,122 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:07:33,127 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:07:33,136 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:07:33,137 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:07:41,124 - ExcelProcessor - INFO - Successfully read MASTER sheet with 32361 rows and 30 columns
+2025-03-18 15:07:41,124 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI']
+2025-03-18 15:07:41,128 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:41,137 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:41,148 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:41,156 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:41,893 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:41,894 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.19.2025_processed.csv
+2025-03-18 15:07:42,431 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.19.2025_processed.csv to BigQuery
+2025-03-18 15:07:42,435 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:42,441 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:42,445 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:07:42,447 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    71
+1    67
+2    67
+3    68
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:42,482 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:42,534 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-17
+1   2025-02-17
+2   2025-02-17
+3   2025-02-17
+4   2025-02-17
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:42,589 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1947-10-29
+1   1936-11-12
+2   1936-11-12
+3   1959-12-10
+4   1959-12-10
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:42,592 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:42,633 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-31
+1   2025-01-30
+2   2025-01-30
+3   2025-01-26
+4   2025-01-10
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:42,674 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-01
+1   2025-05-10
+2   2025-05-10
+3   2025-02-25
+4   2025-04-10
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:42,724 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-11
+1   2025-07-16
+2   2025-07-16
+3   2025-05-04
+4   2025-06-20
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:42,866 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:07:42,871 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:07:42,884 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:07:42,893 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:07:42,907 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:07:42,908 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:07:53,648 - ExcelProcessor - INFO - Successfully read MASTER sheet with 59679 rows and 32 columns
+2025-03-18 15:07:53,649 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:07:53,656 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:07:53,677 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:07:53,694 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:07:53,709 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:07:54,657 - ExcelProcessor - INFO - DataFrame has 32 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:54,657 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv
+2025-03-18 15:07:55,842 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv to BigQuery
+2025-03-18 15:07:55,843 - ExcelProcessor - INFO - DataFrame has 32 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:07:55,850 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:07:55,856 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:07:55,858 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    18
+1    52
+2    29
+3    60
+4    55
+Name: ADRNbr, dtype: int64
+2025-03-18 15:07:55,915 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:07:56,018 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-02
+1   2025-03-02
+2   2025-03-02
+3   2025-03-02
+4   2025-03-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:07:56,134 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1927-10-04
+1   1952-05-13
+2   1947-02-28
+3   1946-01-12
+4   1960-02-23
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:07:56,138 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:07:56,224 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-13
+2   2025-01-09
+3   2025-01-23
+4   2025-03-01
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:56,294 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-02-11
+2   2025-01-18
+3   2025-02-21
+4   2025-03-28
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:07:56,382 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-20
+1   2025-04-23
+2   2025-03-31
+3   2025-05-01
+4   2025-05-22
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:07:56,444 - google.cloud.bigquery._pandas_helpers - ERROR - Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:07:56,449 - ExcelProcessor - ERROR - BigQuery job failed: Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:07:56,455 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:07:56,462 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:07:56,476 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:07:56,487 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:07:56,487 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:08:02,883 - ExcelProcessor - INFO - Successfully read MASTER sheet with 36188 rows and 30 columns
+2025-03-18 15:08:02,884 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI']
+2025-03-18 15:08:02,889 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:08:02,901 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:08:02,911 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:08:02,921 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:08:03,521 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:08:03,521 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.26.2025_processed.csv
+2025-03-18 15:08:04,322 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.26.2025_processed.csv to BigQuery
+2025-03-18 15:08:04,323 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:08:04,327 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:08:04,330 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:08:04,332 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    66
+1    64
+2    64
+3    72
+4    66
+Name: ADRNbr, dtype: int64
+2025-03-18 15:08:04,378 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:08:04,443 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-24
+1   2025-02-24
+2   2025-02-24
+3   2025-02-24
+4   2025-02-24
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:08:04,528 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1948-09-14
+1   1947-01-10
+2   1947-01-10
+3   1956-07-14
+4   1958-06-15
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:08:04,532 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:08:04,651 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-02-04
+1   2025-02-12
+2   2025-02-10
+3   2025-01-03
+4   2025-01-31
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:08:04,713 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-05
+1   2025-05-13
+2   2025-03-12
+3   2025-04-03
+4   2025-03-02
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:08:04,762 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-10
+1   2025-07-16
+2   2025-05-15
+3   2025-06-14
+4   2025-05-07
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:08:04,935 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:08:04,941 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:08:04,960 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:08:04,975 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:08:04,988 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:08:04,989 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:08:16,987 - ExcelProcessor - INFO - Successfully read MASTER sheet with 70252 rows and 32 columns
+2025-03-18 15:08:16,987 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:08:16,995 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:08:17,015 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:08:17,032 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:08:17,048 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:08:18,361 - ExcelProcessor - INFO - DataFrame has 32 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:08:18,362 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.12.2025_processed.csv
+2025-03-18 15:08:19,827 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.12.2025_processed.csv to BigQuery
+2025-03-18 15:08:19,827 - ExcelProcessor - INFO - DataFrame has 32 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:08:19,835 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:08:19,844 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:08:19,846 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    62
+1    67
+2    68
+3    69
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:08:19,912 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:08:20,012 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-11
+1   2025-03-11
+2   2025-03-11
+3   2025-03-11
+4   2025-03-11
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:08:20,115 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1950-03-25
+1   1950-03-25
+2   1958-01-26
+3   1943-06-22
+4   1947-02-18
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:08:20,120 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:08:20,215 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-02-24
+1   2025-02-26
+2   2025-01-24
+3   2025-01-17
+4   2025-01-08
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:08:20,305 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-25
+1   2025-03-26
+2   2025-04-24
+3   2025-04-17
+4   2025-04-18
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:08:20,408 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-26
+1   2025-06-01
+2   2025-07-01
+3   2025-06-25
+4   2025-06-28
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:08:20,699 - ExcelProcessor - ERROR - BigQuery job failed: ('invalid_grant: Invalid JWT Signature.', {'error': 'invalid_grant', 'error_description': 'Invalid JWT Signature.'})
+2025-03-18 15:08:20,707 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:08:20,888 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:15:30,643 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:15:31,112 - ExcelProcessor - INFO - Dataset medadhdata2025.adherence_tracking already exists
+2025-03-18 15:15:31,475 - ExcelProcessor - INFO - Table medadhdata2025.adherence_tracking.weekly_med_adherence_data created
+2025-03-18 15:15:31,481 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:17:15,441 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:17:15,443 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx is still being written, waiting...
+2025-03-18 15:17:17,460 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:17:17,461 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:17:19,238 - ExcelProcessor - ERROR - Error reading MASTER sheet: Worksheet named 'MASTER' not found
+2025-03-18 15:17:42,205 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:17:42,206 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx is still being written, waiting...
+2025-03-18 15:17:44,226 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:17:44,227 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:17:44,591 - ExcelProcessor - ERROR - Error reading MASTER sheet: Worksheet named 'MASTER' not found
+2025-03-18 15:18:00,116 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:18:00,117 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx is still being written, waiting...
+2025-03-18 15:18:02,132 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:18:02,133 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:18:05,746 - ExcelProcessor - INFO - Successfully read MASTER sheet with 14813 rows and 29 columns
+2025-03-18 15:18:05,747 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:18:05,750 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:18:05,758 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:18:05,763 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:18:05,767 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:18:06,048 - ExcelProcessor - INFO - DataFrame has 29 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:18:06,048 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv
+2025-03-18 15:18:06,403 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv to BigQuery
+2025-03-18 15:18:06,403 - ExcelProcessor - INFO - DataFrame has 29 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:18:06,406 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:18:06,409 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:18:06,410 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    67
+1    70
+2    68
+3    67
+4    68
+Name: ADRNbr, dtype: int64
+2025-03-18 15:18:06,429 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:18:06,467 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-02
+1   2025-02-02
+2   2025-02-02
+3   2025-02-02
+4   2025-02-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:18:06,500 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1957-10-06
+1   1943-07-18
+2   1938-02-06
+3   1965-01-20
+4   1959-02-20
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:18:06,514 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:18:06,548 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-28
+1   2025-01-13
+2   2025-01-22
+3   2025-01-30
+4   2025-01-23
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:18:06,588 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-04-28
+1   2025-04-13
+2   2025-04-22
+3   2025-03-01
+4   2025-02-22
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:18:06,625 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-04
+1   2025-06-22
+2   2025-06-29
+3   2025-05-07
+4   2025-05-01
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:18:10,338 - ExcelProcessor - INFO - Loaded 14813 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:18:10,338 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:18:10,382 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:24:23,274 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:24:23,719 - ExcelProcessor - INFO - Dataset medadhdata2025.adherence_tracking already exists
+2025-03-18 15:24:24,038 - ExcelProcessor - INFO - Table medadhdata2025.adherence_tracking.weekly_med_adherence_data created
+2025-03-18 15:24:24,042 - ExcelProcessor - INFO - Processing existing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:24,043 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:24,045 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:26,144 - ExcelProcessor - ERROR - Error reading MASTER sheet: Worksheet named 'Master' not found
+2025-03-18 15:24:26,168 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:24:46,962 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:46,963 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx is still being written, waiting...
+2025-03-18 15:24:48,977 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:48,978 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:24:49,835 - ExcelProcessor - INFO - Successfully read MASTER sheet with 4123 rows and 29 columns
+2025-03-18 15:24:49,835 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:24:49,837 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:24:49,839 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:24:49,841 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:24:49,842 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:24:49,950 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:24:49,969 - ExcelProcessor - ERROR - Error processing file C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx: 'MedAdhMeasureCode'
+Traceback (most recent call last):
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'MedAdhMeasureCode'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\ETL.py", line 151, in process_excel_file
+    processed_df['UGID'] = processed_df.apply(
+                           ~~~~~~~~~~~~~~~~~~^
+        lambda row: str(row['PayerCode']) +
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        axis=1
+        ^^^^^^
+    )
+    ^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\frame.py", line 10374, in apply
+    return op.apply().__finalize__(self, method="apply")
+           ~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 916, in apply
+    return self.apply_standard()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 1063, in apply_standard
+    results, res_index = self.apply_series_generator()
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 1081, in apply_series_generator
+    results[i] = self.func(v, *self.args, **self.kwargs)
+                 ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\ETL.py", line 154, in <lambda>
+    str(row['MedAdhMeasureCode']),
+        ~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\series.py", line 1121, in __getitem__
+    return self._get_value(key)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\series.py", line 1237, in _get_value
+    loc = self.index.get_loc(label)
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'MedAdhMeasureCode'
+2025-03-18 15:25:44,015 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:25:44,016 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx is still being written, waiting...
+2025-03-18 15:25:46,032 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:25:46,032 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:25:46,925 - ExcelProcessor - INFO - Successfully read MASTER sheet with 4123 rows and 29 columns
+2025-03-18 15:25:46,926 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:25:46,927 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:25:46,928 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:25:46,930 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:25:46,931 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:25:47,077 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:25:47,098 - ExcelProcessor - ERROR - Error processing file C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx: 'MedAdhMeasureCode'
+Traceback (most recent call last):
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas\\_libs\\hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'MedAdhMeasureCode'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\ETL.py", line 151, in process_excel_file
+    processed_df['UGID'] = processed_df.apply(
+                           ~~~~~~~~~~~~~~~~~~^
+        lambda row: str(row['PayerCode']) +
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        axis=1
+        ^^^^^^
+    )
+    ^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\frame.py", line 10374, in apply
+    return op.apply().__finalize__(self, method="apply")
+           ~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 916, in apply
+    return self.apply_standard()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 1063, in apply_standard
+    results, res_index = self.apply_series_generator()
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\apply.py", line 1081, in apply_series_generator
+    results[i] = self.func(v, *self.args, **self.kwargs)
+                 ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\ETL.py", line 154, in <lambda>
+    str(row['MedAdherenceMeasureCode']),
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\series.py", line 1121, in __getitem__
+    return self._get_value(key)
+           ~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\series.py", line 1237, in _get_value
+    loc = self.index.get_loc(label)
+  File "C:\Users\pcastillo\OneDrive - VillageMD\Desktop\Python ETL\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'MedAdhMeasureCode'
+2025-03-18 15:26:07,624 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:26:08,007 - ExcelProcessor - INFO - Dataset medadhdata2025.adherence_tracking already exists
+2025-03-18 15:26:08,164 - ExcelProcessor - INFO - Table medadhdata2025.adherence_tracking.weekly_med_adherence_data already exists
+2025-03-18 15:26:08,168 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:26:16,450 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:26:16,452 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx is still being written, waiting...
+2025-03-18 15:26:18,458 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:26:18,459 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:26:20,933 - ExcelProcessor - INFO - Successfully read MASTER sheet with 4123 rows and 29 columns
+2025-03-18 15:26:20,934 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:26:20,935 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:26:20,938 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:26:20,940 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:26:20,942 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:26:21,044 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:26:21,138 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:26:21,138 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.22.2025_processed.csv
+2025-03-18 15:26:21,237 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.22.2025_processed.csv to BigQuery
+2025-03-18 15:26:21,238 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:26:21,240 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:26:21,242 - ExcelProcessor - INFO - Converting ADRNbr from int64 to integer
+2025-03-18 15:26:21,243 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    61
+1    65
+2    65
+3    65
+4    65
+Name: ADRNbr, dtype: int64
+2025-03-18 15:26:21,249 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:26:21,258 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-01-17
+1   2025-01-17
+2   2025-01-17
+3   2025-01-17
+4   2025-01-17
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:26:21,268 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1966-10-15
+1   1949-11-03
+2   1960-12-02
+3   1960-12-02
+4   1960-12-02
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:26:21,278 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:26:21,289 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-03
+2   2025-01-03
+3   2025-01-03
+4   2025-01-03
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:26:21,299 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-01-10
+2   2025-01-10
+3   2025-01-10
+4   2025-01-10
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:26:21,308 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-19
+1   2025-03-23
+2   2025-03-23
+3   2025-03-23
+4   2025-03-23
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:26:25,261 - ExcelProcessor - INFO - Loaded 4123 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:26:25,262 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:26:25,282 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 1.22.2025.xlsx
+2025-03-18 15:26:45,304 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:26:45,305 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx is still being written, waiting...
+2025-03-18 15:26:47,322 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:26:47,323 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:26:49,510 - ExcelProcessor - INFO - Successfully read MASTER sheet with 11324 rows and 29 columns
+2025-03-18 15:26:49,511 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:26:49,514 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:26:49,518 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:26:49,521 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:26:49,525 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:26:49,841 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:26:50,106 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:26:50,106 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.29.2025_processed.csv
+2025-03-18 15:26:50,433 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 1.29.2025_processed.csv to BigQuery
+2025-03-18 15:26:50,434 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:26:50,437 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:26:50,441 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:26:50,442 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    72
+1    72
+2    71
+3    71
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:26:50,466 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:26:50,497 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-01-29
+1   2025-01-29
+2   2025-01-29
+3   2025-01-29
+4   2025-01-29
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:26:50,522 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1956-08-10
+1   1956-08-10
+2   1971-04-09
+3   1971-04-09
+4   1952-07-12
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:26:50,524 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:26:50,550 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-02
+1   2025-01-03
+2   2025-01-10
+3   2025-01-10
+4   2025-01-09
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:26:50,582 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-31
+1   2025-02-01
+2   2025-02-06
+3   2025-02-06
+4   2025-02-07
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:26:50,607 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-04-13
+1   2025-04-14
+2   2025-04-18
+3   2025-04-18
+4   2025-04-19
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:26:53,578 - ExcelProcessor - INFO - Loaded 11324 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:26:53,579 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:26:53,609 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 1.29.2025.xlsx
+2025-03-18 15:27:43,120 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:27:43,511 - ExcelProcessor - INFO - Dataset medadhdata2025.adherence_tracking already exists
+2025-03-18 15:27:43,660 - ExcelProcessor - INFO - Table medadhdata2025.adherence_tracking.weekly_med_adherence_data already exists
+2025-03-18 15:27:43,667 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:27:51,473 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:27:51,474 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx is still being written, waiting...
+2025-03-18 15:27:53,489 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:27:53,490 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:27:58,836 - ExcelProcessor - INFO - Successfully read MASTER sheet with 14813 rows and 29 columns
+2025-03-18 15:27:58,837 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:27:58,840 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:27:58,843 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:27:58,847 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:27:58,850 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:27:59,206 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:27:59,437 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:27:59,437 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv
+2025-03-18 15:27:59,762 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.5.2025_processed.csv to BigQuery
+2025-03-18 15:27:59,763 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:27:59,766 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:27:59,770 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:27:59,772 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    67
+1    70
+2    68
+3    67
+4    68
+Name: ADRNbr, dtype: int64
+2025-03-18 15:27:59,788 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:27:59,817 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-02
+1   2025-02-02
+2   2025-02-02
+3   2025-02-02
+4   2025-02-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:27:59,848 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1957-10-06
+1   1943-07-18
+2   1938-02-06
+3   1965-01-20
+4   1959-02-20
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:27:59,856 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:27:59,887 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-28
+1   2025-01-13
+2   2025-01-22
+3   2025-01-30
+4   2025-01-23
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:27:59,931 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-04-28
+1   2025-04-13
+2   2025-04-22
+3   2025-03-01
+4   2025-02-22
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:27:59,966 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-04
+1   2025-06-22
+2   2025-06-29
+3   2025-05-07
+4   2025-05-01
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:28:04,945 - ExcelProcessor - INFO - Loaded 14813 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:28:04,946 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:28:05,011 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.5.2025.xlsx
+2025-03-18 15:28:14,988 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:28:14,989 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx is still being written, waiting...
+2025-03-18 15:28:17,004 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:28:17,005 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:28:21,642 - ExcelProcessor - INFO - Successfully read MASTER sheet with 18235 rows and 29 columns
+2025-03-18 15:28:21,643 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText']
+2025-03-18 15:28:21,647 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:28:21,655 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:28:21,663 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:28:21,671 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:28:22,180 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:28:22,518 - ExcelProcessor - INFO - DataFrame has 30 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:28:22,519 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.12.2025_processed.csv
+2025-03-18 15:28:23,003 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.12.2025_processed.csv to BigQuery
+2025-03-18 15:28:23,003 - ExcelProcessor - INFO - DataFrame has 30 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:28:23,008 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:28:23,017 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:28:23,019 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    71
+1    69
+2    68
+3    71
+4    72
+Name: ADRNbr, dtype: int64
+2025-03-18 15:28:23,055 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:28:23,165 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-10
+1   2025-02-10
+2   2025-02-10
+3   2025-02-10
+4   2025-02-10
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:28:23,209 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1947-10-29
+1   1961-09-06
+2   1959-12-10
+3   1959-12-10
+4   1957-04-29
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:28:23,212 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:28:23,271 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-31
+1   2025-01-18
+2   2025-01-26
+3   2025-01-10
+4   2025-01-02
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:28:23,317 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-01
+1   2025-02-15
+2   2025-02-25
+3   2025-04-10
+4   2025-04-02
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:28:23,350 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-11
+1   2025-04-25
+2   2025-05-04
+3   2025-06-20
+4   2025-06-13
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:28:27,618 - ExcelProcessor - INFO - Loaded 18235 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:28:27,618 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:28:27,675 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.12.2025.xlsx
+2025-03-18 15:28:47,983 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:28:47,983 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx is still being written, waiting...
+2025-03-18 15:28:49,990 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:28:49,990 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:28:57,796 - ExcelProcessor - INFO - Successfully read MASTER sheet with 32361 rows and 30 columns
+2025-03-18 15:28:57,797 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI']
+2025-03-18 15:28:57,802 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:28:57,814 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:28:57,823 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:28:57,832 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:28:58,630 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:28:59,144 - ExcelProcessor - INFO - DataFrame has 31 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:28:59,145 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.19.2025_processed.csv
+2025-03-18 15:28:59,935 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.19.2025_processed.csv to BigQuery
+2025-03-18 15:28:59,936 - ExcelProcessor - INFO - DataFrame has 31 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:28:59,941 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:28:59,949 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:28:59,950 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    71
+1    67
+2    67
+3    68
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:28:59,998 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:29:00,062 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-17
+1   2025-02-17
+2   2025-02-17
+3   2025-02-17
+4   2025-02-17
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:29:00,137 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1947-10-29
+1   1936-11-12
+2   1936-11-12
+3   1959-12-10
+4   1959-12-10
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:29:00,140 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:29:00,191 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-31
+1   2025-01-30
+2   2025-01-30
+3   2025-01-26
+4   2025-01-10
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:00,260 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-01
+1   2025-05-10
+2   2025-05-10
+3   2025-02-25
+4   2025-04-10
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:00,322 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-11
+1   2025-07-16
+2   2025-07-16
+3   2025-05-04
+4   2025-06-20
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:29:06,685 - ExcelProcessor - INFO - Loaded 32361 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:29:06,686 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:29:06,793 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.19.2025.xlsx
+2025-03-18 15:29:13,217 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:29:13,218 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx is still being written, waiting...
+2025-03-18 15:29:15,227 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:29:15,228 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:29:23,993 - ExcelProcessor - INFO - Successfully read MASTER sheet with 36188 rows and 30 columns
+2025-03-18 15:29:23,994 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI']
+2025-03-18 15:29:24,001 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:29:24,012 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:29:24,027 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:29:24,038 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:29:24,773 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:29:25,449 - ExcelProcessor - INFO - DataFrame has 31 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:29:25,450 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.26.2025_processed.csv
+2025-03-18 15:29:26,368 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 2.26.2025_processed.csv to BigQuery
+2025-03-18 15:29:26,369 - ExcelProcessor - INFO - DataFrame has 31 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:29:26,376 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:29:26,383 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:29:26,385 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    66
+1    64
+2    64
+3    72
+4    66
+Name: ADRNbr, dtype: int64
+2025-03-18 15:29:26,420 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:29:26,477 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-02-24
+1   2025-02-24
+2   2025-02-24
+3   2025-02-24
+4   2025-02-24
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:29:26,576 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1948-09-14
+1   1947-01-10
+2   1947-01-10
+3   1956-07-14
+4   1958-06-15
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:29:26,583 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:29:26,651 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-02-04
+1   2025-02-12
+2   2025-02-10
+3   2025-01-03
+4   2025-01-31
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:26,716 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-05
+1   2025-05-13
+2   2025-03-12
+3   2025-04-03
+4   2025-03-02
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:26,804 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-10
+1   2025-07-16
+2   2025-05-15
+3   2025-06-14
+4   2025-05-07
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:29:30,123 - ExcelProcessor - INFO - Loaded 36188 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:29:30,124 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:29:30,223 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 2.26.2025.xlsx
+2025-03-18 15:29:37,087 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:29:37,088 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx is still being written, waiting...
+2025-03-18 15:29:39,097 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:29:39,098 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:29:52,772 - ExcelProcessor - INFO - Successfully read MASTER sheet with 59679 rows and 32 columns
+2025-03-18 15:29:52,772 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:29:52,782 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:29:52,802 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:29:52,819 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:29:52,846 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:29:53,992 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:29:54,995 - ExcelProcessor - INFO - DataFrame has 33 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:29:54,996 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv
+2025-03-18 15:29:56,447 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv to BigQuery
+2025-03-18 15:29:56,447 - ExcelProcessor - INFO - DataFrame has 33 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:29:56,452 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:29:56,460 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:29:56,461 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    18
+1    52
+2    29
+3    60
+4    55
+Name: ADRNbr, dtype: int64
+2025-03-18 15:29:56,509 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:29:56,615 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-02
+1   2025-03-02
+2   2025-03-02
+3   2025-03-02
+4   2025-03-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:29:56,727 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1927-10-04
+1   1952-05-13
+2   1947-02-28
+3   1946-01-12
+4   1960-02-23
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:29:56,732 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:29:56,834 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-13
+2   2025-01-09
+3   2025-01-23
+4   2025-03-01
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:56,932 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-02-11
+2   2025-01-18
+3   2025-02-21
+4   2025-03-28
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:29:57,037 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-20
+1   2025-04-23
+2   2025-03-31
+3   2025-05-01
+4   2025-05-22
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:29:57,102 - google.cloud.bigquery._pandas_helpers - ERROR - Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:29:57,107 - ExcelProcessor - ERROR - BigQuery job failed: Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:29:57,112 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:29:57,297 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:15,890 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:15,893 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx is still being written, waiting...
+2025-03-18 15:38:17,901 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:17,902 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:29,108 - ExcelProcessor - INFO - Successfully read MASTER sheet with 59679 rows and 32 columns
+2025-03-18 15:38:29,108 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:38:29,116 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:38:29,133 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:38:29,147 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:38:29,161 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:38:29,931 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:38:30,494 - ExcelProcessor - INFO - DataFrame has 33 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:38:30,495 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv
+2025-03-18 15:38:31,474 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv to BigQuery
+2025-03-18 15:38:31,475 - ExcelProcessor - INFO - DataFrame has 33 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:38:31,483 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:38:31,488 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:38:31,490 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    18
+1    52
+2    29
+3    60
+4    55
+Name: ADRNbr, dtype: int64
+2025-03-18 15:38:31,541 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:38:31,632 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-02
+1   2025-03-02
+2   2025-03-02
+3   2025-03-02
+4   2025-03-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:38:31,723 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1927-10-04
+1   1952-05-13
+2   1947-02-28
+3   1946-01-12
+4   1960-02-23
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:38:31,727 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:38:31,811 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-13
+2   2025-01-09
+3   2025-01-23
+4   2025-03-01
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:38:31,876 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-02-11
+2   2025-01-18
+3   2025-02-21
+4   2025-03-28
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:38:32,005 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-20
+1   2025-04-23
+2   2025-03-31
+3   2025-05-01
+4   2025-05-22
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:38:32,096 - google.cloud.bigquery._pandas_helpers - ERROR - Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:38:32,110 - ExcelProcessor - ERROR - BigQuery job failed: Error converting Pandas column with name: "PayerMemberId" and datatype: "object" to an appropriate pyarrow datatype: Array, ListArray, or StructArray
+2025-03-18 15:38:32,118 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:32,296 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:38:50,820 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:38:50,821 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx is still being written, waiting...
+2025-03-18 15:38:52,837 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:38:52,837 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:39:04,220 - ExcelProcessor - INFO - Successfully read MASTER sheet with 70252 rows and 32 columns
+2025-03-18 15:39:04,221 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:39:04,229 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:39:04,246 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:39:04,263 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:39:04,278 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:39:05,319 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:39:06,253 - ExcelProcessor - INFO - DataFrame has 33 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:39:06,254 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.12.2025_processed.csv
+2025-03-18 15:39:07,416 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.12.2025_processed.csv to BigQuery
+2025-03-18 15:39:07,417 - ExcelProcessor - INFO - DataFrame has 33 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:39:07,422 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:39:07,430 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:39:07,432 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    62
+1    67
+2    68
+3    69
+4    71
+Name: ADRNbr, dtype: int64
+2025-03-18 15:39:07,521 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:39:07,620 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-11
+1   2025-03-11
+2   2025-03-11
+3   2025-03-11
+4   2025-03-11
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:39:07,705 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1950-03-25
+1   1950-03-25
+2   1958-01-26
+3   1943-06-22
+4   1947-02-18
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:39:07,710 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:39:07,795 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-02-24
+1   2025-02-26
+2   2025-01-24
+3   2025-01-17
+4   2025-01-08
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:39:07,892 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-05-25
+1   2025-03-26
+2   2025-04-24
+3   2025-04-17
+4   2025-04-18
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:39:07,974 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-07-26
+1   2025-06-01
+2   2025-07-01
+3   2025-06-25
+4   2025-06-28
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:39:11,907 - ExcelProcessor - INFO - Loaded 70252 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:39:11,908 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:39:12,110 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.12.2025.xlsx
+2025-03-18 15:52:19,981 - ExcelProcessor - INFO - BigQuery client initialized successfully
+2025-03-18 15:52:20,417 - ExcelProcessor - INFO - Dataset medadhdata2025.adherence_tracking already exists
+2025-03-18 15:52:20,586 - ExcelProcessor - INFO - Table medadhdata2025.adherence_tracking.weekly_med_adherence_data already exists
+2025-03-18 15:52:20,598 - ExcelProcessor - INFO - Started monitoring C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input for Excel files
+2025-03-18 15:52:32,715 - ExcelProcessor - INFO - New Excel file detected: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:52:32,718 - ExcelProcessor - INFO - File C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx is still being written, waiting...
+2025-03-18 15:52:34,743 - ExcelProcessor - INFO - Processing file: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:52:34,745 - ExcelProcessor - INFO - Reading MASTER sheet from C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Input\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:52:47,228 - ExcelProcessor - INFO - Successfully read MASTER sheet with 59679 rows and 32 columns
+2025-03-18 15:52:47,229 - ExcelProcessor - INFO - Columns in Excel file: ['PatientName', 'DateOfBirth', 'PatientPhoneNumber', 'PatientAddress', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode ', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag']
+2025-03-18 15:52:47,236 - ExcelProcessor - INFO - Removing sensitive column: PatientName
+2025-03-18 15:52:47,253 - ExcelProcessor - INFO - Removing sensitive column: PatientPhoneNumber
+2025-03-18 15:52:47,270 - ExcelProcessor - INFO - Removing sensitive column: PatientAddress
+2025-03-18 15:52:47,285 - ExcelProcessor - INFO - Creating UPID field
+2025-03-18 15:52:48,258 - ExcelProcessor - INFO - Creating UGID field
+2025-03-18 15:52:48,971 - ExcelProcessor - INFO - DataFrame has 33 columns after processing: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:52:48,972 - ExcelProcessor - INFO - Saving processed data to CSV: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv
+2025-03-18 15:52:50,129 - ExcelProcessor - INFO - Uploading C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Output\Med Adherence Exception File 3.5.2025_processed.csv to BigQuery
+2025-03-18 15:52:50,132 - ExcelProcessor - INFO - DataFrame has 33 columns: ['DateOfBirth', 'United Flag', 'DataAsOfDate', 'PayerMemberId', 'MeasureYearNbr', 'PayerCode', 'MarketCode', 'PDCNbr', 'ADRNbr', 'DaysMissedNbr', 'Total Fills Column?', 'Refills Remaining', 'Initial Fill Date', 'LastFillDate', 'NextFillDate', 'LastImpactableDate', 'OneFillCode', 'DrugDispensedQuantityNbr', 'DrugDispensedDaysSupplyNbr', 'MedAdherenceMeasureCode', 'NDCCode', 'NDCDesc', 'PrescriberNPI', 'PrescribingName', 'Prescriber Phone Number', 'PharmacyStoreName', 'PharmacyCommunicationNumberText', 'PharmacyNPI', 'LIS Flag', 'UPID', 'UGID', 'data_week', 'loaded_timestamp']
+2025-03-18 15:52:50,144 - ExcelProcessor - WARNING - Column InitialFillDate not found in dataframe, adding as empty column
+2025-03-18 15:52:50,158 - ExcelProcessor - INFO - Converting ADRNbr from float64 to integer
+2025-03-18 15:52:50,161 - ExcelProcessor - INFO - Sample ADRNbr values after conversion: 0    18
+1    52
+2    29
+3    60
+4    55
+Name: ADRNbr, dtype: int64
+2025-03-18 15:52:50,285 - ExcelProcessor - INFO - Converted data_week to date string format. Sample: 0    2025-03-18
+1    2025-03-18
+2    2025-03-18
+3    2025-03-18
+4    2025-03-18
+Name: data_week, dtype: object
+2025-03-18 15:52:50,449 - ExcelProcessor - INFO - Converted DataAsOfDate to date string format. Sample: 0   2025-03-02
+1   2025-03-02
+2   2025-03-02
+3   2025-03-02
+4   2025-03-02
+Name: DataAsOfDate, dtype: datetime64[ns]
+2025-03-18 15:52:50,537 - ExcelProcessor - INFO - Converted DateOfBirth to date string format. Sample: 0   1927-10-04
+1   1952-05-13
+2   1947-02-28
+3   1946-01-12
+4   1960-02-23
+Name: DateOfBirth, dtype: datetime64[ns]
+2025-03-18 15:52:50,549 - ExcelProcessor - INFO - Converted InitialFillDate to date string format. Sample: 0    NaN
+1    NaN
+2    NaN
+3    NaN
+4    NaN
+Name: InitialFillDate, dtype: object
+2025-03-18 15:52:50,616 - ExcelProcessor - INFO - Converted LastFillDate to date string format. Sample: 0   2025-01-01
+1   2025-01-13
+2   2025-01-09
+3   2025-01-23
+4   2025-03-01
+Name: LastFillDate, dtype: datetime64[ns]
+2025-03-18 15:52:50,687 - ExcelProcessor - INFO - Converted NextFillDate to date string format. Sample: 0   2025-01-05
+1   2025-02-11
+2   2025-01-18
+3   2025-02-21
+4   2025-03-28
+Name: NextFillDate, dtype: datetime64[ns]
+2025-03-18 15:52:50,758 - ExcelProcessor - INFO - Converted LastImpactableDate to date string format. Sample: 0   2025-03-20
+1   2025-04-23
+2   2025-03-31
+3   2025-05-01
+4   2025-05-22
+Name: LastImpactableDate, dtype: datetime64[ns]
+2025-03-18 15:52:54,862 - ExcelProcessor - INFO - Loaded 59679 rows to medadhdata2025.adherence_tracking.weekly_med_adherence_data
+2025-03-18 15:52:54,862 - ExcelProcessor - INFO - Moving original file to archive: C:/Users/pcastillo/OneDrive - VillageMD\Documents - VMD- Quality Leadership- PHI/Data Updates/MedAdhData Dropzone/Archive\Med Adherence Exception File 3.5.2025.xlsx
+2025-03-18 15:52:55,603 - ExcelProcessor - INFO - Successfully processed file: Med Adherence Exception File 3.5.2025.xlsx
