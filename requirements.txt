@@ -1,7 +1,5 @@
 pandas 
 numpy 
 streamlit 
-plotly_express==0.4.1  
-plotly.graph_objects 
+plotly_express==0.4.1   
 datetime
-json
