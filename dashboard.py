@@ -141,7 +141,7 @@ date_range = st.sidebar.selectbox(
     "Select Time Period",
     ["Year to Date", "Last Quarter", "Last Month", "Last Week"]
 )
-def get_star_rating(value, measure):
+def get_star_rating(value, measure, thresholds):
     """Determine star rating based on value and thresholds"""
     if value >= thresholds[measure]["5-Stars"]:
         return "5-Stars"
@@ -260,7 +260,7 @@ with tab1:
     with col1:
         st.subheader("MAD Performance")
         st.metric(
-            label=f"Diabetes Medication Adherence ({get_star_rating(adherence_data['MAD'], 'MAD')})",
+            label=f"Diabetes Medication Adherence ({get_star_rating(adherence_data['MAD'], 'MAD', thresholds)})",
             value=f"{adherence_data['MAD']:.1f}%", 
             delta=f"{np.random.uniform(-2, 5):.1f}%"
         )
@@ -269,7 +269,7 @@ with tab1:
     with col2:
         st.subheader("MAC Performance")
         st.metric(
-            label=f"Cholesterol Medication Adherence ({get_star_rating(adherence_data['MAC'], 'MAC')})",
+            label=f"Cholesterol Medication Adherence ({get_star_rating(adherence_data['MAC'], 'MAC', thresholds)})",
             value=f"{adherence_data['MAC']:.1f}%", 
             delta=f"{np.random.uniform(-2, 5):.1f}%"
         )
@@ -278,7 +278,7 @@ with tab1:
     with col3:
         st.subheader("MAH Performance")
         st.metric(
-            label=f"Hypertension Medication Adherence ({get_star_rating(adherence_data['MAH'], 'MAH')})",
+            label=f"Hypertension Medication Adherence ({get_star_rating(adherence_data['MAH'], 'MAH', thresholds)})",
             value=f"{adherence_data['MAH']:.1f}%", 
             delta=f"{np.random.uniform(-2, 5):.1f}%"
         )
