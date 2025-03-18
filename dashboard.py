@@ -19,20 +19,43 @@ st.set_page_config(
 
 # Function to load BigQuery credentials from JSON file
 @st.cache_resource
-def get_bigquery_client():
-    # Load credentials from the JSON file
-    credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["bigquery"]  # This assumes you've added your JSON content to Streamlit secrets
-    )
+def create_bigquery_connection():
+    # There are two options for authentication:
     
-    # Create BigQuery client
-    client = bigquery.Client(credentials=credentials, project=credentials.project_id)
+    # OPTION 1: Service Account (recommended for production)
+    # Load service account credentials from secrets
+    # (For Streamlit Cloud, use st.secrets)
+    # For local development, you can use a JSON key file
+    
+    try:
+        # Try to get credentials from Streamlit secrets (for production)
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"]
+        )
+    except:
+        # For local development, specify the path to your service account key file
+        credentials_path = "medadhdata2025-6e124598af28.json"  # Replace with your file path
+        try:
+            credentials = service_account.Credentials.from_service_account_file(credentials_path)
+        except:
+            # OPTION 2: User account authentication (will open browser window)
+            # If no service account is available, use user authentication
+            credentials = None
+            st.warning("Using user authentication. You may need to authenticate in a browser window.")
+    
+    # Create a BigQuery client
+    if credentials:
+        client = bigquery.Client(credentials=credentials, project=credentials.project_id)
+    else:
+        # This will use user authentication
+        client = bigquery.Client()
+    
     return client
 
 # Function to query data from BigQuery
 @st.cache_data(ttl=3600)  # Cache data for 1 hour
 def load_data(query):
-    client = get_bigquery_client()
+    client = create_bigquery_connection()
     query_job = client.query(query)
     return query_job.to_dataframe()
 
