@@ -48,7 +48,7 @@ def load_medication_adherence_data():
         PayerCode, 
         MedAdherenceMeasureCode, 
         NDCDesc, 
-    FROM `your_project.your_dataset.your_table`
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
     """
     return load_data(query)
 
