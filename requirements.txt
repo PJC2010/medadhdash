@@ -1,0 +1,10 @@
+pandas 
+numpy 
+streamlit 
+plotly.express 
+plotly.graph_objects 
+from plotly.subplots  make_subplots
+from google.oauth2  service_account
+from google.cloud  bigquery
+datetime
+json
