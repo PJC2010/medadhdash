@@ -154,9 +154,9 @@ def get_star_rating(value, measure, thresholds):
     else:
         return "1-Star"
 
-def get_color_for_rating(value, measure):
+def get_color_for_rating(value, measure, thresholds):
     """Get color based on star rating"""
-    rating = get_star_rating(value, measure)
+    rating = get_star_rating(value, measure, thresholds)
     if rating == "5-Stars" or rating == "4-Stars":
         return "green"
     elif rating == "3-Stars":
