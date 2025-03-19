@@ -67,7 +67,7 @@ def get_available_weeks(num_weeks=12):
     query = f"""
     SELECT DISTINCT
         DataAsOfDate,
-        EXTRACT(WEEK FROM DataAsOfDate) AS WeekNumber
+        EXTRACT(WEEK FROM DataAsOfDate) AS WeekNumber,
         EXTRACT(YEAR FROM DataAsOfDate) AS Year,
         MAX(DataAsOfDate) AS LastDataAsOfDate
     FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
