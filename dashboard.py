@@ -394,4 +394,4 @@ else:
 
 # Footer
 st.markdown("---")
-st.markdown("Data last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+st.markdown("Data last updated: " )
