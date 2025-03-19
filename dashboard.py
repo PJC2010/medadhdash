@@ -190,12 +190,12 @@ selected_week_index = st.sidebar.selectbox(
 
 # Get current and previous week
 current_week = weeks_df.iloc[selected_week_index]
-current_week_date = current_week['WeekNumber'].date()
+current_week_date = current_week['WeekNumber']
 
 # Get previous week for comparison
 prev_week_index = min(selected_week_index + 1, len(weeks_df) - 1) 
 prev_week = weeks_df.iloc[prev_week_index]
-prev_week_date = prev_week['WeekNumber'].date()
+prev_week_date = prev_week['WeekNumber']
 
 # Measure type filter
 measure_types = get_distinct_values("MedAdherenceMeasureCode")
