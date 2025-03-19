@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import toml
+import json
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
@@ -25,13 +27,64 @@ st.set_page_config(
 
 # Connect to BigQuery
 @st.cache_resource
-def get_bigquery_connector():
+def get_bigquery_client():
+    # Try Streamlit secrets first
+    if hasattr(st, "secrets") and "gcp" in st.secrets:
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp"]
+        )
+    else:
+        # Try local TOML file
+        toml_path = "config.toml"  # Adjust path as needed
+        if os.path.exists(toml_path):
+            config = toml.load(toml_path)
+            if 'gcp' in config:
+                credentials_dict = config['gcp']
+            else:
+                st.error("No 'gcp' section found in TOML file")
+                st.stop()
+            credentials = service_account.Credentials.from_service_account_info(
+                credentials_dict
+            )
+        else:
+            st.error(f"No credentials found. Create a {toml_path} file with GCP credentials.")
+            st.stop()
     
-    credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"]
-)
-client = bigquery.Client(credentials=credentials)
+    return bigquery.Client(credentials=credentials)
 
-bq = get_bigquery_connector()
+# Initialize BigQuery client
+try:
+    client = get_bigquery_client()
+    st.success("Connected to BigQuery successfully!")
+except Exception as e:
+    st.error(f"Failed to connect to BigQuery: {str(e)}")
+    st.stop()
+
+# Test query to verify connection
+@st.cache_data(ttl=600)
+def run_test_query():
+    query = """
+    SELECT
+        DataAsOfDate,
+        PARSE_DATE('%Y-%m-%d', SUBSTR(DataAsOfDate, 1, 10)) AS ParsedDate,
+        COUNT(*) as Count
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
+    GROUP BY DataAsOfDate
+    ORDER BY DataAsOfDate DESC
+    LIMIT 5
+    """
+    return client.query(query).to_dataframe()
+
+# Display test results
+try:
+    test_data = run_test_query()
+    st.write("Recent data from BigQuery:")
+    st.dataframe(test_data)
+except Exception as e:
+    st.error(f"Query failed: {str(e)}")
+
+bq = get_bigquery_client()
+
 
 # Sidebar filters
 st.sidebar.title("Dashboard Filters")
