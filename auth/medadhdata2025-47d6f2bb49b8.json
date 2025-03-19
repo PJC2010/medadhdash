@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "medadhdata2025",
+  "private_key_id": "47d6f2bb49b8b09b54533ffe708e6e63c64d6329",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCF8dYrG/gyfp7w\n2nuUG5/lcoKDvdg1pJwtASxXj238mpot/XQFSBKCTjcyWoUBiwD+/p9cJOxv0FQy\nOi4xHNRiWpg9BwFI9XtEGA3RZCQXOtQ4FEw1BinkAoup9IPVKx5TywTy8qYDAqBp\nfsCyPfr0SvC709uOqtOzTOENdSYGhefLKeVsorpwoPqn868yZZmTo9N4lzqCPcQj\n77iu5q5A7z8Hvqq9urZaH2wJ1CPAPCtRrZUVYD8DS6TKNQwLu0I5KJa7nejG4+jg\na/nICoWkcUpOOM+DZx96qJMJ9BsOE7AFpuudTGzNxnRlssArZfk5NDTVCZHShRP1\njC5tNDj5AgMBAAECggEAFadb2GVG/HbJitDEqKlx8d3PaVfavl//BYGKjG86Ddu6\nhX5+GqUk+jQwf9nwEFNLVRiPD7jtEO3M0WqOxs7NK5ykvueagWkkxS80UKplRpdy\nm8xK6PQ29873ita7gfiHXcQqPSfAHH14twVQRqB207Z9G4hWQXFZacOfIGtUuzn/\nuIJPt/gG4HNPDNM/Y2TIg1zQSA1AuDsElIV1/wYDl0VomT3i6ALwIYoRV4rWBLD3\nQJL3dsB86wL2ieq0n7wEdqx+3JeGDK+rN5NOt6ayWunCDFpld7WAjx9HQHAdkRcF\nvHVrY6HHW7h3A4Gmv9Q5b0relVEOxFB22AA2EETfRwKBgQC5X0cLLgFL3QchbBkD\nZW/GkhJp5CP6MEutTwDWS3cqY+M9XqIGhH4s71q4Mt/V+cHEXT5YwQ/Smx+O52SO\nZOsY2/722VYVRLGwoDvUy7bU7y86gpe13UBl3nkbgqZYS1cbAq/CFJgjp1BQk39M\nEA6h95cOnPewbQ7/Jkdeoa64uwKBgQC4+nQW0V5vvKcphv44rIaU0eEHdVTx0/GD\njAVpX7PEmsfYurX0VFnOdWQhiSdzZ3BATCsIDEtXVkhXszlcLfzxQOKY7U0x6UoI\n0DvIqTBolGTeePxvgjrnCXs6Z1kFP1ydsMOgeD/YiCbP5IARPdFnj8wNWNjh8nYU\n3OMeyZYD2wKBgQCky3UHFVEFtmseZVEfWdAywa0pAi6RvtmoKvHdkJ1RzBc6eaSl\nEqhxHiCSXHfta+m8vgAtOwTsAAfgLQmSJVlzcjCKFtCWe8lT8j7+gFP7nN9prqtc\nfGNBrLQRpuZm3COF2a+SZGiUWavm1hl271dy2f8qeJUh/PI2FjugfzAq/QKBgBgA\np7+uO0rUd/xzf9lqyavV8BU/rF4U2mnvaWRa/sCsNPJyh9nEeELKCMwxN+VJrs8p\nEwxgTAZxM8Hth6vma8QCX2TopfOsCedK3fcTvSxU1SHpIRh3FZ2VJWBWuL5tkl8D\n6N6Ru/ck86RWSifylZGSny+8L6hiBeB/KRl9nvGxAoGBALbhU6ebinRFKhiUmVaE\ntmNlERVvNE3IYWd8k15sFVtD8zc3/oTYz4Q33zzJhClw/KMilPoLt4cDce18g2uz\nKulZw27BF+D5zyJWW8GsCt5S78eGLGDvWxQ0x6JJYtT8P7H+iWZ7ITm7kEn99OOz\n6HfCrlv+Z19EXJrwlbTwylEC\n-----END PRIVATE KEY-----\n",
+  "client_email": "newnewappkey@medadhdata2025.iam.gserviceaccount.com",
+  "client_id": "110980272999648507190",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/newnewappkey%40medadhdata2025.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

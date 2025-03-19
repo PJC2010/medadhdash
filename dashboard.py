@@ -1,603 +1,376 @@
-import pandas as pd
-import numpy as np
 import streamlit as st
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from google.oauth2 import service_account
-from google.cloud import bigquery
-import datetime
-import json
+import numpy as np
+from datetime import datetime, timedelta
+import os
+from utils.data_loader import BigQueryConnector
+from utils.data_processor import (
+    calculate_metrics, 
+    calculate_average_pdc, 
+    get_week_over_week_data,
+    create_market_payer_summary
+)
 
-# Set page configuration
+# Page config
 st.set_page_config(
-    page_title="Medicare Advantage Medication Adherence Dashboard",
+    page_title="Medication Adherence Dashboard",
     page_icon="💊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Function to load BigQuery credentials from JSON file
+# Connect to BigQuery
 @st.cache_resource
-def get_bigquery_client():
-   # Specify the path to your downloaded JSON credentials file
-   # You can use an absolute path or a relative path to your script
-   credentials_path = "medadhdata2025-ce0f2b2ff824.json"
-   # Load credentials from the JSON file
-   credentials = service_account.Credentials.from_service_account_file(
-       credentials_path
-   )
-   # Create BigQuery client
-   client = bigquery.Client(credentials=credentials, project=credentials.project_id)
-   return client
-# Function to query data from BigQuery
-@st.cache_data(ttl=3600)  # Cache data for 1 hour
-def load_data(query):
-    client = get_bigquery_client()
-    query_job = client.query(query)
-    return query_job.to_dataframe()
+def get_bigquery_connector():
+    credentials_path = os.path.join(os.path.dirname(__file__), "auth", "medadhdata2025-47d6f2bb49b8.json")
+    return BigQueryConnector(credentials_path)
 
-# Get the current timestamp
-current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+bq = get_bigquery_connector()
 
-# Load the data
+# Sidebar filters
+st.sidebar.title("Dashboard Filters")
+
+# Get available weeks for selection
 @st.cache_data(ttl=3600)
-def load_medication_adherence_data():
-    query = """
-    SELECT 
-        MarketCode, 
-        PayerCode, 
-        MedAdherenceMeasureCode, 
-        NDCDesc, 
-    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
-    """
-    return load_data(query)
+def load_available_weeks():
+    return bq.get_latest_weeks(num_weeks=12)
 
-# Load the star rating thresholds data
-@st.cache_data
-def load_star_thresholds():
-    # This could come from BigQuery or be hardcoded based on CMS data
-    # Using the values from your documentation for 2024
-    thresholds = {
-        "MAD": {  # Medication adherence for diabetes medication
-            "2-Stars": 82,
-            "3-Stars": 86,
-            "4-Stars": 90,
-            "5-Stars": 92
-        },
-        "MAC": {  # Medication adherence for cholesterol (statins)
-            "2-Stars": 84,
-            "3-Stars": 89,
-            "4-Stars": 91,
-            "5-Stars": 93
-        },
-        "MAH": {  # Medication adherence for hypertension (RAS antagonists)
-            "2-Stars": 84,
-            "3-Stars": 88,
-            "4-Stars": 91,
-            "5-Stars": 93
-        }
-    }
-    return thresholds
+weeks_df = load_available_weeks()
+weeks_options = [f"Week {row['WeekNumber']}, {row['Year']}" for _, row in weeks_df.iterrows()]
 
-# Load data
-try:
-    df = load_medication_adherence_data()
-    thresholds = load_star_thresholds()
-    
-    # Calculate last data update time from the data
-    if 'Last Activity Date' in df.columns and not df['Last Activity Date'].empty:
-        last_update = df['Last Activity Date'].max()
-        last_update_text = f"Data Last Updated: {last_update}"
-    else:
-        last_update_text = f"Dashboard Last Refreshed: {current_time}"
-    
-    # Process data for dashboard
-    # For demonstration, generating random adherence rates 
-    # In reality, you would calculate these from your actual data
-    adherence_data = {
-        "MAD": np.random.uniform(85, 95),
-        "MAC": np.random.uniform(85, 95),
-        "MAH": np.random.uniform(85, 95)
-    }
-    
-    # Create unique lists for filter options
-    market_codes = sorted(df['MarketCode'].unique().tolist())
-    payer_codes = sorted(df['PayerCode'].unique().tolist())
-    
-except Exception as e:
-    st.error(f"Error loading data: {e}")
-    adherence_data = {"MAD": 0, "MAC": 0, "MAH": 0}
-    market_codes = []
-    payer_codes = []
-    last_update_text = f"Dashboard Last Refreshed: {current_time} (Error loading data)"
+selected_week_index = st.sidebar.selectbox(
+    "Select Week", 
+    range(len(weeks_options)),
+    format_func=lambda x: weeks_options[x]
+)
 
-# Dashboard title and structure
-st.title("Medicare Advantage Medication Adherence Dashboard")
-st.write(last_update_text)
+current_week = weeks_df.iloc[selected_week_index]
+current_week_date = current_week['LastDataAsOfDate']
 
-# Create tabs
-tab1, tab2 = st.tabs(["Overall Performance", "Adherence Trends"])
+# Get previous week for comparison
+prev_week_index = min(selected_week_index + 1, len(weeks_df) - 1)
+prev_week = weeks_df.iloc[prev_week_index]
+prev_week_date = prev_week['LastDataAsOfDate']
 
-# Create sidebar with filters
-st.sidebar.title("Filters")
+# Measure type filter
+@st.cache_data(ttl=3600)
+def load_measure_types():
+    return bq.get_distinct_values("MedAdherenceMeasureCode")
 
-# Add filter for MarketCode
+measure_types = load_measure_types()
+selected_measures = st.sidebar.multiselect(
+    "Measure Type", 
+    measure_types,
+    default=measure_types
+)
+
+# Market code filter
+@st.cache_data(ttl=3600)
+def load_market_codes():
+    return bq.get_distinct_values("MarketCode")
+
+market_codes = load_market_codes()
 selected_markets = st.sidebar.multiselect(
-    "Select Markets",
-    options=market_codes,
-    default=market_codes[:5] if len(market_codes) > 5 else market_codes
+    "Market Code", 
+    market_codes,
+    default=[]
 )
 
-# Add filter for PayerCode
+# Payer code filter
+@st.cache_data(ttl=3600)
+def load_payer_codes():
+    return bq.get_distinct_values("PayerCode")
+
+payer_codes = load_payer_codes()
 selected_payers = st.sidebar.multiselect(
-    "Select Payers",
-    options=payer_codes,
-    default=payer_codes[:3] if len(payer_codes) > 3 else payer_codes
+    "Payer Code", 
+    payer_codes,
+    default=[]
 )
 
-# Date range filter
-date_range = st.sidebar.selectbox(
-    "Select Time Period",
-    ["Year to Date", "Last Quarter", "Last Month", "Last Week"]
+# Load data based on filters
+@st.cache_data(ttl=3600)
+def load_data(date, measure_codes=None, market_codes=None, payer_codes=None):
+    # Set date range to cover the entire week
+    start_date = date - timedelta(days=7)
+    end_date = date
+    
+    return bq.get_med_adherence_data(
+        start_date=start_date,
+        end_date=end_date,
+        measure_codes=measure_codes if measure_codes else None,
+        market_codes=market_codes if market_codes else None,
+        payer_codes=payer_codes if payer_codes else None
+    )
+
+# Load current and previous week data
+current_data = load_data(
+    current_week_date, 
+    selected_measures if selected_measures else None,
+    selected_markets if selected_markets else None,
+    selected_payers if selected_payers else None
 )
-def get_star_rating(value, measure):
-    """Determine star rating based on value and thresholds"""
-    global thresholds
-    if value >= thresholds[measure]["5-Stars"]:
-        return "5-Stars"
-    elif value >= thresholds[measure]["4-Stars"]:
-        return "4-Stars"
-    elif value >= thresholds[measure]["3-Stars"]:
-        return "3-Stars"
-    elif value >= thresholds[measure]["2-Stars"]:
-        return "2-Stars"
-    else:
-        return "1-Star"
 
-def get_color_for_rating(value, measure, thresholds):
-    """Get color based on star rating"""
-    rating = get_star_rating(value, measure, thresholds)
-    if rating == "5-Stars" or rating == "4-Stars":
-        return "green"
-    elif rating == "3-Stars":
-        return "yellow"
-    else:
-        return "red"
+prev_data = load_data(
+    prev_week_date,
+    selected_measures if selected_measures else None,
+    selected_markets if selected_markets else None,
+    selected_payers if selected_payers else None
+)
 
-def create_gauge_chart(value, measure, thresholds):
-    """Create a gauge chart for displaying measure performance against thresholds"""
-    fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
-        value=value,
-        title={"text": f"{measure} Performance"},
-        delta={"reference": thresholds[measure]["4-Stars"], "increasing": {"color": "green"}},
-        gauge={
-            "axis": {"range": [None, 100], "tickwidth": 1, "tickcolor": "darkblue"},
-            "bar": {"color": "darkblue"},
-            "bgcolor": "white",
-            "borderwidth": 2,
-            "bordercolor": "gray",
-            "steps": [
-                {"range": [0, thresholds[measure]["2-Stars"]], "color": "red"},
-                {"range": [thresholds[measure]["2-Stars"], thresholds[measure]["3-Stars"]], "color": "orange"},
-                {"range": [thresholds[measure]["3-Stars"], thresholds[measure]["4-Stars"]], "color": "yellow"},
-                {"range": [thresholds[measure]["4-Stars"], thresholds[measure]["5-Stars"]], "color": "lightgreen"},
-                {"range": [thresholds[measure]["5-Stars"], 100], "color": "green"},
-            ],
-            "threshold": {
-                "line": {"color": "red", "width": 4},
-                "thickness": 0.75,
-                "value": thresholds[measure]["4-Stars"]}
-        }
-    ))
-    
-    fig.update_layout(
-        height=250,
-        margin=dict(l=20, r=20, t=40, b=20),
+# Check if data is available
+if current_data.empty:
+    st.error("No data available for the selected filters. Please adjust your selection.")
+    st.stop()
+
+# Process data
+current_metrics = calculate_metrics(current_data)
+prev_metrics = calculate_metrics(prev_data)
+average_pdc = calculate_average_pdc(current_data)
+weekly_trend = get_week_over_week_data(pd.concat([current_data, prev_data]))
+market_summary, payer_summary = create_market_payer_summary(current_data)
+
+# Dashboard Header
+st.title("Medication Adherence Gap Analysis")
+st.markdown(f"**Current Week: {current_week_date.strftime('%Y-%m-%d')}**")
+
+# KPI Cards Row
+col1, col2, col3, col4 = st.columns(4)
+
+# UGIDs (Gaps) KPI
+with col1:
+    st.metric(
+        "Total Gaps (UGIDs)",
+        f"{current_metrics['total_ugids']:,}",
+        f"{((current_metrics['total_ugids'] - prev_metrics['total_ugids']) / prev_metrics['total_ugids'] * 100):.1f}%" if prev_metrics['total_ugids'] > 0 else "N/A"
     )
-    return fig
 
-# Function to create performance by market heatmap
-def create_market_performance_heatmap(df, selected_markets, selected_payers):
-    """Create a heatmap showing performance by market"""
-    # In a real scenario, you would calculate these from your real data
-    # For demonstration, generating random data
-    markets = selected_markets if selected_markets else market_codes[:5]
-    
-    data = []
-    for market in markets:
-        row = {
-            "Market": market,
-            "MAD": np.random.uniform(82, 95),
-            "MAC": np.random.uniform(82, 95),
-            "MAH": np.random.uniform(82, 95)
-        }
-        data.append(row)
-    
-    heatmap_df = pd.DataFrame(data)
-    
-    fig = go.Figure()
-    
-    for measure in ["MAD", "MAC", "MAH"]:
-        # Create a heatmap-like visualization
-        colors = [get_color_for_rating(val, measure) for val in heatmap_df[measure]]
-        
-        fig.add_trace(go.Bar(
-            y=heatmap_df["Market"],
-            x=heatmap_df[measure],
-            orientation='h',
-            name=measure,
-            marker=dict(
-                color=colors,
-                line=dict(color='rgba(0,0,0,0)', width=1)
-            ),
-            text=heatmap_df[measure].round(1),
-            textposition='auto',
-        ))
-    
-    fig.update_layout(
-        title="Performance by Market",
-        barmode='group',
-        height=400,
-        margin=dict(l=40, r=20, t=40, b=40),
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="right",
-            x=1
-        )
+# UPIDs (Patients) KPI
+with col2:
+    st.metric(
+        "Unique Patients (UPIDs)",
+        f"{current_metrics['total_upids']:,}",
+        f"{((current_metrics['total_upids'] - prev_metrics['total_upids']) / prev_metrics['total_upids'] * 100):.1f}%" if prev_metrics['total_upids'] > 0 else "N/A"
     )
-    
-    return fig
 
-with tab1:
-    st.header("Overall Performance")
-    
-    # Top KPI cards row
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.subheader("MAD Performance")
-        st.metric(
-            label=f"Diabetes Medication Adherence ({get_star_rating(adherence_data['MAD'], 'MAD', thresholds)})",
-            value=f"{adherence_data['MAD']:.1f}%", 
-            delta=f"{np.random.uniform(-2, 5):.1f}%"
-        )
-        st.plotly_chart(create_gauge_chart(adherence_data['MAD'], 'MAD', thresholds), use_container_width=True)
-        
-    with col2:
-        st.subheader("MAC Performance")
-        st.metric(
-            label=f"Cholesterol Medication Adherence ({get_star_rating(adherence_data['MAC'], 'MAC', thresholds)})",
-            value=f"{adherence_data['MAC']:.1f}%", 
-            delta=f"{np.random.uniform(-2, 5):.1f}%"
-        )
-        st.plotly_chart(create_gauge_chart(adherence_data['MAC'], 'MAC', thresholds), use_container_width=True)
-        
-    with col3:
-        st.subheader("MAH Performance")
-        st.metric(
-            label=f"Hypertension Medication Adherence ({get_star_rating(adherence_data['MAH'], 'MAH', thresholds)})",
-            value=f"{adherence_data['MAH']:.1f}%", 
-            delta=f"{np.random.uniform(-2, 5):.1f}%"
-        )
-        st.plotly_chart(create_gauge_chart(adherence_data['MAH'], 'MAH', thresholds), use_container_width=True)
-    
-    # Performance by market
-    st.plotly_chart(create_market_performance_heatmap(df, selected_markets, selected_payers), use_container_width=True)
-    
-    # Gap closure summary
-    st.subheader("Gap Closure Summary")
-    
-    gap_col1, gap_col2, gap_col3 = st.columns(3)
-    
-    # Calculate gap metrics (in a real scenario, you would calculate from your data)
-    # For demonstration, using random data
-    for i, (col, measure) in enumerate(zip([gap_col1, gap_col2, gap_col3], ["MAD", "MAC", "MAH"])):
-        with col:
-            total_members = np.random.randint(5000, 10000)
-            compliant_members = int(total_members * adherence_data[measure] / 100)
-            non_compliant_members = total_members - compliant_members
-            
-            # Calculate gap to next star threshold
-            current_rating = get_star_rating(adherence_data[measure], measure)
-            next_rating_map = {
-                "1-Star": "2-Stars",
-                "2-Stars": "3-Stars",
-                "3-Stars": "4-Stars",
-                "4-Stars": "5-Stars",
-                "5-Stars": "5-Stars"  # Already at max
-            }
-            next_rating = next_rating_map[current_rating]
-            
-            if next_rating != current_rating:
-                next_threshold = thresholds[measure][next_rating]
-                members_needed = int((next_threshold - adherence_data[measure]) / 100 * total_members) + 1
-            else:
-                members_needed = 0
-            
-            st.write(f"### {measure}")
-            st.write(f"**Total Members:** {total_members}")
-            st.write(f"**Compliant Members:** {compliant_members} ({adherence_data[measure]:.1f}%)")
-            st.write(f"**Non-Compliant Members:** {non_compliant_members}")
-            
-            if members_needed > 0:
-                st.write(f"**Gap to {next_rating}:** {members_needed} members")
-            else:
-                st.write("**Congratulations!** Already achieved 5-Star rating.")
-def generate_monthly_trend_data(measures, months=12):
-    """Generate mock monthly trend data for demonstration"""
-    base_date = datetime.datetime.now() - datetime.timedelta(days=30*months)
-    dates = [base_date + datetime.timedelta(days=30*i) for i in range(months+1)]
-    
-    data = []
-    for measure in measures:
-        # Start with base value and add some random walk
-        base_value = np.random.uniform(80, 85)
-        values = [base_value]
-        
-        for i in range(1, months+1):
-            # Add some randomness with slight upward trend
-            next_value = values[-1] + np.random.uniform(-1, 2)
-            # Ensure value stays within reasonable bounds
-            next_value = max(min(next_value, 98), 75)
-            values.append(next_value)
-        
-        for i, date in enumerate(dates):
-            data.append({
-                "Date": date,
-                "Measure": measure,
-                "Adherence": values[i]
-            })
-    
-    return pd.DataFrame(data)
+# Fill Status KPI
+with col3:
+    st.metric(
+        "One-Fill Gaps",
+        f"{current_metrics['one_fill_count']:,}",
+        f"{((current_metrics['one_fill_count'] - prev_metrics['one_fill_count']) / prev_metrics['one_fill_count'] * 100):.1f}%" if prev_metrics['one_fill_count'] > 0 else "N/A"
+    )
 
-def create_trend_chart(trend_df, thresholds):
-    """Create a line chart showing trends over time"""
-    fig = go.Figure()
+# Denominator Gaps KPI
+with col4:
+    st.metric(
+        "Denominator Gaps",
+        f"{current_metrics['denominator_gap_count']:,}",
+        f"{((current_metrics['denominator_gap_count'] - prev_metrics['denominator_gap_count']) / prev_metrics['denominator_gap_count'] * 100):.1f}%" if prev_metrics['denominator_gap_count'] > 0 else "N/A"
+    )
+
+# Weekly Trends
+st.header("Week over Week Trends")
+col1, col2 = st.columns(2)
+
+with col1:
+    # UGIDs Trend
+    fig = px.line(
+        weekly_trend.head(8),
+        x="file_load_date",
+        y="ugid_count",
+        title="Weekly Gaps (UGIDs)",
+        markers=True
+    )
+    fig.update_layout(xaxis_title="Week", yaxis_title="Count")
+    st.plotly_chart(fig, use_container_width=True)
+
+with col2:
+    # UPIDs Trend
+    fig = px.line(
+        weekly_trend.head(8),
+        x="file_load_date",
+        y="upid_count",
+        title="Weekly Unique Patients (UPIDs)",
+        markers=True
+    )
+    fig.update_layout(xaxis_title="Week", yaxis_title="Count")
+    st.plotly_chart(fig, use_container_width=True)
+
+# Measure Type Analysis
+st.header("Measure Type Analysis")
+col1, col2 = st.columns(2)
+
+with col1:
+    # Measure Type Donut Chart
+    measure_data = pd.DataFrame({
+        'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
+        'Count': [current_metrics['mac_count'], current_metrics['mah_count'], current_metrics['mad_count']]
+    })
     
-    for measure in ["MAD", "MAC", "MAH"]:
-        measure_data = trend_df[trend_df["Measure"] == measure]
-        
-        fig.add_trace(go.Scatter(
-            x=measure_data["Date"],
-            y=measure_data["Adherence"],
-            mode='lines+markers',
-            name=measure,
-            line=dict(width=3),
-            marker=dict(size=8),
-        ))
+    fig = px.pie(
+        measure_data,
+        values='Count',
+        names='Measure',
+        title="Distribution by Measure Type",
+        hole=0.4
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+with col2:
+    # PDC Average by Measure Type
+    pdc_data = pd.DataFrame({
+        'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
+        'Average PDC': [average_pdc.get('MAC', 0), average_pdc.get('MAH', 0), average_pdc.get('MAD', 0)]
+    })
     
-    # Add threshold reference lines
-    for measure in ["MAD", "MAC", "MAH"]:
-        for star, value in thresholds[measure].items():
-            if star in ["4-Stars", "5-Stars"]:  # Only show 4 and 5 star thresholds to avoid clutter
-                fig.add_trace(go.Scatter(
-                    x=[trend_df["Date"].min(), trend_df["Date"].max()],
-                    y=[value, value],
-                    mode='lines',
-                    line=dict(dash='dash', width=1),
-                    name=f"{measure} {star} ({value}%)",
-                    opacity=0.7,
-                ))
-    
-    fig.update_layout(
-        title="Medication Adherence Trends Over Time",
-        xaxis_title="Month",
-        yaxis_title="Adherence Rate (%)",
-        yaxis=dict(range=[75, 100]),
-        height=500,
-        hovermode="x unified",
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="right",
-            x=1
-        )
+    fig = px.bar(
+        pdc_data,
+        x='Measure',
+        y='Average PDC',
+        title="Average PDC by Measure Type (Denominator Gaps Only)",
+        color='Measure',
+        text_auto='.2f'
     )
     
-    return fig
+    # Add 80% threshold line
+    fig.add_shape(
+        type="line",
+        x0=-0.5,
+        x1=2.5,
+        y0=0.8,
+        y1=0.8,
+        line=dict(color="red", width=2, dash="dash"),
+    )
+    
+    fig.add_annotation(
+        x=2.5,
+        y=0.8,
+        text="80% PDC Threshold",
+        showarrow=False,
+        yshift=10,
+        xshift=-5,
+        font=dict(color="red")
+    )
+    
+    fig.update_layout(yaxis_range=[0, 1])
+    st.plotly_chart(fig, use_container_width=True)
 
+# Fill Status Analysis
+st.header("Fill Status Analysis")
 
-with tab2:
-    st.header("Adherence Trends")
-    
-    # Generate mock trend data for demonstration
-    trend_df = generate_monthly_trend_data(["MAD", "MAC", "MAH"])
-    
-    # Time series trends
-    st.plotly_chart(create_trend_chart(trend_df, thresholds), use_container_width=True)
-    
-    
-    
-    # Adherence by demographics section
-    st.subheader("Adherence by Demographics")
-    
-    # Create mock data for demographics
-    def create_demographic_chart(df, selected_markets, selected_payers):
-        """Create chart showing adherence by demographics"""
-        # For demonstration using random data
-        # In a real application, you would calculate this from your actual data
-        
-        if selected_markets:
-            markets = selected_markets
-        else:
-            markets = market_codes[:5] if market_codes else ["Market A", "Market B", "Market C", "Market D", "Market E"]
-        
-        data = []
-        for market in markets:
-            for measure in ["MAD", "MAC", "MAH"]:
-                data.append({
-                    "Market": market,
-                    "Measure": measure,
-                    "Adherence": np.random.uniform(80, 95)
-                })
-        
-        demo_df = pd.DataFrame(data)
-        
-        fig = px.bar(
-            demo_df,
-            x="Market",
-            y="Adherence",
-            color="Measure",
-            barmode="group",
-            title="Medication Adherence by Market",
-            color_discrete_sequence=px.colors.qualitative.G10,
-        )
-        
-        fig.update_layout(
-            xaxis_title="Market",
-            yaxis_title="Adherence Rate (%)",
-            yaxis=dict(range=[75, 100]),
-            height=400,
-        )
-        
-        return fig
-    
-    st.plotly_chart(create_demographic_chart(df, selected_markets, selected_payers), use_container_width=True)
-def predict_eoy_performance(trend_df):
-    """Create a simple prediction of end-of-year performance"""
-    # Get the latest data point for each measure
-    latest_data = trend_df.sort_values('Date').groupby('Measure').last().reset_index()
-    
-    # Create a simple projection (in reality, you would use more sophisticated methods)
-    projections = []
-    for _, row in latest_data.iterrows():
-        measure = row['Measure']
-        current_value = row['Adherence']
-        
-        # Simple projection - assume slight improvement
-        projected_value = min(current_value + np.random.uniform(0.5, 2.0), 98)
-        
-        current_rating = get_star_rating(current_value, measure)
-        projected_rating = get_star_rating(projected_value, measure)
-        
-        projections.append({
-            'Measure': measure,
-            'Current Value': current_value,
-            'Current Rating': current_rating,
-            'Projected EOY Value': projected_value,
-            'Projected Rating': projected_rating,
-            'Will Improve': projected_rating > current_rating
-        })
-    
-    return pd.DataFrame(projections)
+# One-Fill vs Denominator by Measure Type
+measure_fill_data = pd.DataFrame({
+    'Measure': ['MAC', 'MAH', 'MAD'],
+    'One Fill': [
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAC') & (current_data['OneFillCode'] == 'Yes')]),
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAH') & (current_data['OneFillCode'] == 'Yes')]),
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAD') & (current_data['OneFillCode'] == 'Yes')])
+    ],
+    'Denominator Gap': [
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAC') & (current_data['OneFillCode'].isnull())]),
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAH') & (current_data['OneFillCode'].isnull())]),
+        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAD') & (current_data['OneFillCode'].isnull())])
+    ]
+})
 
-# Add to sidebar - Advanced Options
-st.sidebar.markdown("---")
-st.sidebar.subheader("Advanced Options")
+# Reshape for stacked bar chart
+fill_status_long = pd.melt(
+    measure_fill_data,
+    id_vars=['Measure'],
+    value_vars=['One Fill', 'Denominator Gap'],
+    var_name='Fill Status',
+    value_name='Count'
+)
 
-show_projections = st.sidebar.checkbox("Show EOY Projections", value=True)
-show_thresholds = st.sidebar.checkbox("Show Star Rating Thresholds", value=True)
+fig = px.bar(
+    fill_status_long,
+    x='Measure',
+    y='Count',
+    color='Fill Status',
+    title="Fill Status by Measure Type",
+    barmode='stack',
+    text_auto=True
+)
+st.plotly_chart(fig, use_container_width=True)
 
-# If projections are enabled, add them to the dashboard
-if show_projections:
-    # Add to Overall Performance tab
-    with tab1:
-        st.markdown("---")
-        st.subheader("End of Year Projections")
-        
-        # Calculate projections
-        projections_df = predict_eoy_performance(trend_df)
-        
-        # Display projections in a formatted table
-        for _, row in projections_df.iterrows():
-            measure = row['Measure']
-            current_value = row['Current Value']
-            projected_value = row['Projected EOY Value']
-            current_rating = row['Current Rating']
-            projected_rating = row['Projected Rating']
-            
-            proj_col1, proj_col2 = st.columns([1, 4])
-            
-            with proj_col1:
-                st.subheader(f"{measure}")
-            
-            with proj_col2:
-                metric_col1, metric_col2 = st.columns(2)
-                
-                with metric_col1:
-                    st.metric(
-                        label=f"Current ({current_rating})",
-                        value=f"{current_value:.1f}%"
-                    )
-                
-                with metric_col2:
-                    st.metric(
-                        label=f"Projected EOY ({projected_rating})",
-                        value=f"{projected_value:.1f}%",
-                        delta=f"{projected_value - current_value:.1f}%"
-                    )
+# Geographic and Payer Analysis
+st.header("Geographic and Payer Analysis")
+col1, col2 = st.columns(2)
 
-# If thresholds are enabled, add a threshold reference table
-if show_thresholds:
-    with st.sidebar:
-        st.markdown("---")
-        st.subheader("Star Rating Thresholds")
-        
-        # Convert thresholds to a DataFrame for display
-        threshold_data = []
-        for measure, ratings in thresholds.items():
-            for rating, value in ratings.items():
-                threshold_data.append({
-                    "Measure": measure,
-                    "Rating": rating,
-                    "Threshold": value
-                })
-        
-        threshold_df = pd.DataFrame(threshold_data)
-        
-        # Display as a styled table
-        st.dataframe(
-            threshold_df.pivot(index="Rating", columns="Measure", values="Threshold"),
-            use_container_width=True
-        )
+with col1:
+    # Top Markets Bar Chart
+    fig = px.bar(
+        market_summary.head(10),
+        x='gap_count',
+        y='MarketCode',
+        title="Top 10 Markets by Gap Count",
+        orientation='h',
+        text_auto=True
+    )
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    st.plotly_chart(fig, use_container_width=True)
 
-# Add a data refresh button
-st.sidebar.markdown("---")
-if st.sidebar.button("Refresh Data"):
-    st.cache_data.clear()
-    st.experimental_rerun()
+with col2:
+    # Top Payers Bar Chart
+    fig = px.bar(
+        payer_summary.head(10),
+        x='gap_count',
+        y='PayerCode',
+        title="Top 10 Payers by Gap Count",
+        orientation='h',
+        text_auto=True
+    )
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    st.plotly_chart(fig, use_container_width=True)
 
-# Add information about the dashboard
-with st.sidebar:
-    st.markdown("---")
-    st.markdown("### About this Dashboard")
-    st.markdown("""
-    This dashboard tracks medication adherence performance for Medicare Advantage members across three key measures:
+# PDC Distribution
+st.header("PDC Distribution Analysis")
+
+# Filter for denominator gaps with valid PDC
+pdc_analysis_df = current_data[(current_data['OneFillCode'].isnull()) & (current_data['PDCNbr'].notnull())]
+
+if not pdc_analysis_df.empty:
+    # Create PDC distribution histogram
+    fig = px.histogram(
+        pdc_analysis_df,
+        x='PDCNbr',
+        color='MedAdherenceMeasureCode',
+        title="PDC Distribution for Denominator Gaps",
+        nbins=20,
+        histnorm='percent',
+        barmode='overlay',
+        opacity=0.7
+    )
     
-    - **MAD**: Medication Adherence for Diabetes
-    - **MAC**: Medication Adherence for Cholesterol
-    - **MAH**: Medication Adherence for Hypertension
+    # Add 80% threshold line
+    fig.add_shape(
+        type="line",
+        x0=0.8,
+        x1=0.8,
+        y0=0,
+        y1=1,
+        yref="paper",
+        line=dict(color="red", width=2, dash="dash"),
+    )
     
-    All measures are triple-weighted in CMS Star Ratings.
+    fig.add_annotation(
+        x=0.8,
+        y=1,
+        text="80% PDC Threshold",
+        showarrow=False,
+        yshift=10,
+        xshift=10,
+        font=dict(color="red")
+    )
     
-    Data is sourced from Google BigQuery and updated daily.
-    """)
-    
-    st.markdown("---")
-    
+    fig.update_layout(xaxis_title="PDC Value", yaxis_title="Percentage")
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    st.warning("No valid PDC data available for analysis with current filters.")
 
-# Add a footer
+# Footer
 st.markdown("---")
-st.markdown("*Note: All metrics are based on Proportion of Days Covered (PDC) rates. Members are considered adherent with PDC ≥ 80%.*")
-
-# Add a download button for the data
-@st.cache_data
-def convert_df_to_csv(df):
-    return df.to_csv(index=False).encode('utf-8')
-
-with st.sidebar:
-    st.markdown("---")
-    st.subheader("Export Data")
-    
-    csv = convert_df_to_csv(df)
-    st.download_button(
-        label="Download Data as CSV",
-        data=csv,
-        file_name='medication_adherence_data.csv',
-        mime='text/csv',
-    )
+st.markdown("Data last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
