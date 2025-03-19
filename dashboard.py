@@ -62,7 +62,11 @@ except Exception as e:
 
 
 
-bq = get_bigquery_client()
+try:
+    bq = get_bigquery_client()
+except Exception as e:
+    st.error(f"Failed to connect to BigQuery: {str(e)}")
+    st.stop()
 
 
 # Sidebar filters
