@@ -224,7 +224,7 @@ selected_payers = st.sidebar.multiselect(
 # Load current week data
 st.sidebar.write("Loading data...")
 current_data = get_med_adherence_data(
-    start_date=current_week_date - timedelta(days=7),
+    start_date=current_week_date,
     end_date=current_week_date,
     measure_codes=selected_measures,
     market_codes=selected_markets,
@@ -233,7 +233,7 @@ current_data = get_med_adherence_data(
 
 # Load previous week data
 prev_data = get_med_adherence_data(
-    start_date=prev_week_date - timedelta(days=7),
+    start_date=prev_week_date,
     end_date=prev_week_date,
     measure_codes=selected_measures,
     market_codes=selected_markets,
