@@ -13,13 +13,14 @@ class BigQueryConnector:
         or Streamlit secrets
         """
         # Check if we have credentials in Streamlit secrets
+        
         if hasattr(st, "secrets") and "gcp" in st.secrets:
             credentials_dict = st.secrets["gcp"]
             self.credentials = service_account.Credentials.from_service_account_info(
                 credentials_dict
             )
         elif toml_path:
-            # Load from TOML file (code from previous example)
+            config = toml.load(toml_path)
             ...
         elif credentials_path:
             # Load from JSON file (code from previous example)
@@ -93,7 +94,6 @@ class BigQueryConnector:
             EXTRACT(YEAR FROM DataAsOfDate) AS Year,
             MAX(DataAsOfDate) AS LastDataAsOfDate
         FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
-        WHERE DataAsOfDate IS NOT NULL
         GROUP BY WeekNumber, Year
         ORDER BY Year DESC, WeekNumber DESC
         LIMIT {num_weeks}
