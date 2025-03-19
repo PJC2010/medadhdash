@@ -19,7 +19,7 @@ st.set_page_config(
 # Function to load GCP credentials from TOML
 def load_credentials():
     # Path to your TOML file
-    toml_path = "\.streamlit\config.toml"  # Adjust path as needed
+    toml_path = 'config.toml'  # Adjust path as needed
     
     try:
         # Load TOML file
