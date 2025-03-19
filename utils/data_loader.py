@@ -1,13 +1,33 @@
 from google.cloud import bigquery
 from google.oauth2 import service_account
 import pandas as pd
+import toml
+import json
 import os
+import streamlit as st
 
 class BigQueryConnector:
-    def __init__(self, credentials_path):
-        self.credentials = service_account.Credentials.from_service_account_file(
-            credentials_path
-        )
+    def __init__(self, toml_path=None, credentials_path=None):
+        """
+        Initialize BigQuery connector with credentials from TOML, JSON file,
+        or Streamlit secrets
+        """
+        # Check if we have credentials in Streamlit secrets
+        if hasattr(st, "secrets") and "gcp" in st.secrets:
+            credentials_dict = st.secrets["gcp"]
+            self.credentials = service_account.Credentials.from_service_account_info(
+                credentials_dict
+            )
+        elif toml_path:
+            # Load from TOML file (code from previous example)
+            ...
+        elif credentials_path:
+            # Load from JSON file (code from previous example)
+            ...
+        else:
+            raise ValueError("No credentials provided")
+        
+        # Initialize BigQuery client
         self.client = bigquery.Client(credentials=self.credentials)
     
     def run_query(self, query):
