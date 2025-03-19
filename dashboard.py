@@ -60,28 +60,7 @@ except Exception as e:
     st.error(f"Failed to connect to BigQuery: {str(e)}")
     st.stop()
 
-# Test query to verify connection
-@st.cache_data(ttl=600)
-def run_test_query():
-    query = """
-    SELECT
-        DataAsOfDate,
-        PARSE_DATE('%Y-%m-%d', SUBSTR(DataAsOfDate, 1, 10)) AS ParsedDate,
-        COUNT(*) as Count
-    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
-    GROUP BY DataAsOfDate
-    ORDER BY DataAsOfDate DESC
-    LIMIT 5
-    """
-    return client.query(query).to_dataframe()
 
-# Display test results
-try:
-    test_data = run_test_query()
-    st.write("Recent data from BigQuery:")
-    st.dataframe(test_data)
-except Exception as e:
-    st.error(f"Query failed: {str(e)}")
 
 bq = get_bigquery_client()
 
