@@ -1,23 +1,14 @@
 import streamlit as st
 import pandas as pd
-import toml
-import json
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
-from google.oauth2 import service_account
-from google.cloud import bigquery
-from datetime import datetime, timedelta
 import os
-from utils.data_loader import BigQueryConnector
-from utils.data_processor import (
-    calculate_metrics, 
-    calculate_average_pdc, 
-    get_week_over_week_data,
-    create_market_payer_summary
-)
+import toml
+from google.cloud import bigquery
+from google.oauth2 import service_account
+from datetime import datetime, timedelta
 
-# Page config
+# Page configuration
 st.set_page_config(
     page_title="Medication Adherence Dashboard",
     page_icon="💊",
@@ -25,77 +16,190 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Connect to BigQuery
-@st.cache_resource
-def get_bigquery_client():
-    # Try Streamlit secrets first
-    if hasattr(st, "secrets") and "gcp" in st.secrets:
-        credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp"]
-        )
-    else:
-        # Try local TOML file
-        toml_path = ".streamlit\secrets.toml"  # Adjust path as needed
-        if os.path.exists(toml_path):
-            config = toml.load(toml_path)
-            if 'gcp' in config:
-                credentials_dict = config['gcp']
-            else:
-                st.error("No 'gcp' section found in TOML file")
-                st.stop()
-            credentials = service_account.Credentials.from_service_account_info(
-                credentials_dict
-            )
-        else:
-            st.error(f"No credentials found. Create a {toml_path} file with GCP credentials.")
-            st.stop()
+# Function to load GCP credentials from TOML
+def load_credentials():
+    # Path to your TOML file
+    toml_path = "./.streamlit/config.toml"  # Adjust path as needed
     
-    return bigquery.Client(credentials=credentials)
+    try:
+        # Load TOML file
+        config = toml.load(toml_path)
+        
+        # Find credentials section
+        if 'gcp' in config:
+            return config['gcp']
+        elif 'google_credentials' in config:
+            return config['google_credentials']
+        else:
+            for section in config:
+                if isinstance(config[section], dict) and 'type' in config[section]:
+                    return config[section]
+            
+        st.error("No Google credentials found in TOML file")
+        st.stop()
+    except Exception as e:
+        st.error(f"Error loading credentials: {e}")
+        st.stop()
 
 # Initialize BigQuery client
+@st.cache_resource
+def get_bigquery_client():
+    credentials_dict = load_credentials()
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+    return bigquery.Client(credentials=credentials)
+
 try:
-    BigQueryConnector = get_bigquery_client()
-    st.success("Connected to BigQuery successfully!")
+    client = get_bigquery_client()
 except Exception as e:
-    st.error(f"Failed to connect to BigQuery: {str(e)}")
+    st.error(f"Failed to initialize BigQuery client: {e}")
     st.stop()
 
+# Function to run BigQuery queries
+def run_query(query):
+    try:
+        return client.query(query).to_dataframe()
+    except Exception as e:
+        st.error(f"Query failed: {e}")
+        st.stop()
 
+# Get available weeks without relying on nested caching
+def get_available_weeks(num_weeks=12):
+    query = f"""
+    SELECT DISTINCT
+        DataAsOfDate,
+        EXTRACT(WEEK FROM DataAsOfDate) AS WeekNumber
+        EXTRACT(YEAR FROM DataAsOfDate) AS Year,
+        MAX(DataAsOfDate) AS LastDataAsOfDate
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
+    WHERE DataAsOfDate IS NOT NULL
+    ORDER BY DataAsOfDate DESC
+    LIMIT {num_weeks}
+    """
+    return run_query(query)
 
+# Get medication adherence data
+def get_med_adherence_data(start_date=None, end_date=None, measure_codes=None, market_codes=None, payer_codes=None):
+    # Build query filters
+    filters = []
+    
+    if start_date and end_date:
+        filters.append(f"DataAsOfDate BETWEEN '{start_date}' AND '{end_date}'")
+    
+    if measure_codes and len(measure_codes) > 0:
+        measure_list = "', '".join(measure_codes)
+        filters.append(f"MedAdherenceMeasureCode IN ('{measure_list}')")
+    
+    if market_codes and len(market_codes) > 0:
+        market_list = "', '".join(market_codes)
+        filters.append(f"MarketCode IN ('{market_list}')")
+    
+    if payer_codes and len(payer_codes) > 0:
+        payer_list = "', '".join(payer_codes)
+        filters.append(f"PayerCode IN ('{payer_list}')")
+    
+    where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
+    
+    query = f"""
+    SELECT 
+        DataAsOfDate,
+        EXTRACT(WEEK FROM DataAsOfDate) AS WeekNumber,
+        EXTRACT(YEAR FROM DataAsOfDate) AS Year,
+        UGID,
+        UPID,
+        MedAdherenceMeasureCode,
+        MarketCode,
+        PayerCode,
+        OneFillCode,
+        PDCNbr,
+        NDCDesc
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
+        {where_clause}
+        ORDER BY DataAsOfDate DESC
+    """
+    
+    return run_query(query)
 
+# Get distinct values for filter options
+def get_distinct_values(column_name):
+    query = f"""
+    SELECT DISTINCT {column_name}
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
+    ORDER BY {column_name}
+    """
+    df = run_query(query)
+    return df[column_name].tolist() if not df.empty else []
 
+# Calculate metrics for dashboard
+def calculate_metrics(df):
+    metrics = {}
+    
+    # Count total UGIDs and UPIDs
+    metrics['total_ugids'] = len(df)
+    metrics['total_upids'] = df['UPID'].nunique()
+    
+    # Categorize by measure type
+    measure_counts = df['MedAdherenceMeasureCode'].value_counts().to_dict()
+    metrics['mac_count'] = measure_counts.get('MAC', 0)
+    metrics['mah_count'] = measure_counts.get('MAH', 0)
+    metrics['mad_count'] = measure_counts.get('MAD', 0)
+    
+    # Count one-fills vs denominator gaps
+    one_fill_df = df[df['OneFillCode'] == 'Yes']
+    metrics['one_fill_count'] = len(one_fill_df)
+    metrics['denominator_gap_count'] = len(df[df['OneFillCode'].isnull()])
+    
+    return metrics
+
+# Calculate average PDC excluding one-fills and null PDC values
+def calculate_average_pdc(df):
+    # Filter out one-fills and null PDC values
+    pdc_df = df[(df['OneFillCode'].isnull()) & (df['PDCNbr'].notnull())]
+    
+    # Calculate average PDC by measure type
+    if not pdc_df.empty:
+        avg_pdc = pdc_df.groupby('MedAdherenceMeasureCode')['PDCNbr'].mean().to_dict()
+    else:
+        avg_pdc = {}
+    
+    # Ensure all measure types have values (even if zero)
+    for measure in ['MAC', 'MAH', 'MAD']:
+        if measure not in avg_pdc:
+            avg_pdc[measure] = 0
+    
+    return avg_pdc
+
+# Load data
+st.title("Medication Adherence Dashboard")
 
 # Sidebar filters
 st.sidebar.title("Dashboard Filters")
 
-# Get available weeks for selection
-@st.cache_data(ttl=3600)
-def load_available_weeks():
-    return BigQueryConnector.get_latest_weeks(num_weeks=12)
+# Load weeks data (without caching decorators to avoid issues)
+weeks_df = get_available_weeks(num_weeks=12)
 
-weeks_df = load_available_weeks()
+if weeks_df.empty:
+    st.error("No weeks data available. Please check your BigQuery table.")
+    st.stop()
+
+# Week selection
 weeks_options = [f"Week {row['WeekNumber']}, {row['Year']}" for _, row in weeks_df.iterrows()]
-
 selected_week_index = st.sidebar.selectbox(
     "Select Week", 
     range(len(weeks_options)),
     format_func=lambda x: weeks_options[x]
 )
 
+# Get current and previous week
 current_week = weeks_df.iloc[selected_week_index]
-current_week_date = current_week['LastDataAsOfDate']
+current_week_date = current_week['ParsedDate'].date()
 
 # Get previous week for comparison
-prev_week_index = min(selected_week_index + 1, len(weeks_df) - 1)
+prev_week_index = min(selected_week_index + 1, len(weeks_df) - 1) 
 prev_week = weeks_df.iloc[prev_week_index]
-prev_week_date = prev_week['LastDataAsOfDate']
+prev_week_date = prev_week['ParsedDate'].date()
 
 # Measure type filter
-@st.cache_data(ttl=3600)
-def load_measure_types():
-    return BigQueryConnector.get_distinct_values("MedAdherenceMeasureCode")
-
-measure_types = load_measure_types()
+measure_types = get_distinct_values("MedAdherenceMeasureCode")
 selected_measures = st.sidebar.multiselect(
     "Measure Type", 
     measure_types,
@@ -103,11 +207,7 @@ selected_measures = st.sidebar.multiselect(
 )
 
 # Market code filter
-@st.cache_data(ttl=3600)
-def load_market_codes():
-    return BigQueryConnector.get_distinct_values("MarketCode")
-
-market_codes = load_market_codes()
+market_codes = get_distinct_values("MarketCode")
 selected_markets = st.sidebar.multiselect(
     "Market Code", 
     market_codes,
@@ -115,45 +215,30 @@ selected_markets = st.sidebar.multiselect(
 )
 
 # Payer code filter
-@st.cache_data(ttl=3600)
-def load_payer_codes():
-    return BigQueryConnector.get_distinct_values("PayerCode")
-
-payer_codes = load_payer_codes()
+payer_codes = get_distinct_values("PayerCode")
 selected_payers = st.sidebar.multiselect(
     "Payer Code", 
     payer_codes,
     default=[]
 )
 
-# Load data based on filters
-@st.cache_data(ttl=3600)
-def load_data(date, measure_codes=None, market_codes=None, payer_codes=None):
-    # Set date range to cover the entire week
-    start_date = date - timedelta(days=7)
-    end_date = date
-    
-    return BigQueryConnector.get_med_adherence_data(
-        start_date=start_date,
-        end_date=end_date,
-        measure_codes=measure_codes if measure_codes else None,
-        market_codes=market_codes if market_codes else None,
-        payer_codes=payer_codes if payer_codes else None
-    )
-
-# Load current and previous week data
-current_data = load_data(
-    current_week_date, 
-    selected_measures if selected_measures else None,
-    selected_markets if selected_markets else None,
-    selected_payers if selected_payers else None
+# Load current week data
+st.sidebar.write("Loading data...")
+current_data = get_med_adherence_data(
+    start_date=current_week_date - timedelta(days=7),
+    end_date=current_week_date,
+    measure_codes=selected_measures,
+    market_codes=selected_markets,
+    payer_codes=selected_payers
 )
 
-prev_data = load_data(
-    prev_week_date,
-    selected_measures if selected_measures else None,
-    selected_markets if selected_markets else None,
-    selected_payers if selected_payers else None
+# Load previous week data
+prev_data = get_med_adherence_data(
+    start_date=prev_week_date - timedelta(days=7),
+    end_date=prev_week_date,
+    measure_codes=selected_measures,
+    market_codes=selected_markets,
+    payer_codes=selected_payers
 )
 
 # Check if data is available
@@ -165,11 +250,8 @@ if current_data.empty:
 current_metrics = calculate_metrics(current_data)
 prev_metrics = calculate_metrics(prev_data)
 average_pdc = calculate_average_pdc(current_data)
-weekly_trend = get_week_over_week_data(pd.concat([current_data, prev_data]))
-market_summary, payer_summary = create_market_payer_summary(current_data)
 
 # Dashboard Header
-st.title("Medication Adherence Gap Analysis")
 st.markdown(f"**Current Week: {current_week_date.strftime('%Y-%m-%d')}**")
 
 # KPI Cards Row
@@ -180,7 +262,7 @@ with col1:
     st.metric(
         "Total Gaps (UGIDs)",
         f"{current_metrics['total_ugids']:,}",
-        f"{((current_metrics['total_ugids'] - prev_metrics['total_ugids']) / prev_metrics['total_ugids'] * 100):.1f}%" if prev_metrics['total_ugids'] > 0 else "N/A"
+        f"{((current_metrics['total_ugids'] - prev_metrics['total_ugids']) / max(prev_metrics['total_ugids'], 1) * 100):.1f}%" 
     )
 
 # UPIDs (Patients) KPI
@@ -188,7 +270,7 @@ with col2:
     st.metric(
         "Unique Patients (UPIDs)",
         f"{current_metrics['total_upids']:,}",
-        f"{((current_metrics['total_upids'] - prev_metrics['total_upids']) / prev_metrics['total_upids'] * 100):.1f}%" if prev_metrics['total_upids'] > 0 else "N/A"
+        f"{((current_metrics['total_upids'] - prev_metrics['total_upids']) / max(prev_metrics['total_upids'], 1) * 100):.1f}%" 
     )
 
 # Fill Status KPI
@@ -196,7 +278,7 @@ with col3:
     st.metric(
         "One-Fill Gaps",
         f"{current_metrics['one_fill_count']:,}",
-        f"{((current_metrics['one_fill_count'] - prev_metrics['one_fill_count']) / prev_metrics['one_fill_count'] * 100):.1f}%" if prev_metrics['one_fill_count'] > 0 else "N/A"
+        f"{((current_metrics['one_fill_count'] - prev_metrics['one_fill_count']) / max(prev_metrics['one_fill_count'], 1) * 100):.1f}%" 
     )
 
 # Denominator Gaps KPI
@@ -204,36 +286,8 @@ with col4:
     st.metric(
         "Denominator Gaps",
         f"{current_metrics['denominator_gap_count']:,}",
-        f"{((current_metrics['denominator_gap_count'] - prev_metrics['denominator_gap_count']) / prev_metrics['denominator_gap_count'] * 100):.1f}%" if prev_metrics['denominator_gap_count'] > 0 else "N/A"
+        f"{((current_metrics['denominator_gap_count'] - prev_metrics['denominator_gap_count']) / max(prev_metrics['denominator_gap_count'], 1) * 100):.1f}%" 
     )
-
-# Weekly Trends
-st.header("Week over Week Trends")
-col1, col2 = st.columns(2)
-
-with col1:
-    # UGIDs Trend
-    fig = px.line(
-        weekly_trend.head(8),
-        x="file_load_date",
-        y="ugid_count",
-        title="Weekly Gaps (UGIDs)",
-        markers=True
-    )
-    fig.update_layout(xaxis_title="Week", yaxis_title="Count")
-    st.plotly_chart(fig, use_container_width=True)
-
-with col2:
-    # UPIDs Trend
-    fig = px.line(
-        weekly_trend.head(8),
-        x="file_load_date",
-        y="upid_count",
-        title="Weekly Unique Patients (UPIDs)",
-        markers=True
-    )
-    fig.update_layout(xaxis_title="Week", yaxis_title="Count")
-    st.plotly_chart(fig, use_container_width=True)
 
 # Measure Type Analysis
 st.header("Measure Type Analysis")
@@ -294,76 +348,8 @@ with col2:
     fig.update_layout(yaxis_range=[0, 1])
     st.plotly_chart(fig, use_container_width=True)
 
-# Fill Status Analysis
-st.header("Fill Status Analysis")
-
-# One-Fill vs Denominator by Measure Type
-measure_fill_data = pd.DataFrame({
-    'Measure': ['MAC', 'MAH', 'MAD'],
-    'One Fill': [
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAC') & (current_data['OneFillCode'] == 'Yes')]),
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAH') & (current_data['OneFillCode'] == 'Yes')]),
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAD') & (current_data['OneFillCode'] == 'Yes')])
-    ],
-    'Denominator Gap': [
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAC') & (current_data['OneFillCode'].isnull())]),
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAH') & (current_data['OneFillCode'].isnull())]),
-        len(current_data[(current_data['MedAdherenceMeasureCode'] == 'MAD') & (current_data['OneFillCode'].isnull())])
-    ]
-})
-
-# Reshape for stacked bar chart
-fill_status_long = pd.melt(
-    measure_fill_data,
-    id_vars=['Measure'],
-    value_vars=['One Fill', 'Denominator Gap'],
-    var_name='Fill Status',
-    value_name='Count'
-)
-
-fig = px.bar(
-    fill_status_long,
-    x='Measure',
-    y='Count',
-    color='Fill Status',
-    title="Fill Status by Measure Type",
-    barmode='stack',
-    text_auto=True
-)
-st.plotly_chart(fig, use_container_width=True)
-
-# Geographic and Payer Analysis
-st.header("Geographic and Payer Analysis")
-col1, col2 = st.columns(2)
-
-with col1:
-    # Top Markets Bar Chart
-    fig = px.bar(
-        market_summary.head(10),
-        x='gap_count',
-        y='MarketCode',
-        title="Top 10 Markets by Gap Count",
-        orientation='h',
-        text_auto=True
-    )
-    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-    st.plotly_chart(fig, use_container_width=True)
-
-with col2:
-    # Top Payers Bar Chart
-    fig = px.bar(
-        payer_summary.head(10),
-        x='gap_count',
-        y='PayerCode',
-        title="Top 10 Payers by Gap Count",
-        orientation='h',
-        text_auto=True
-    )
-    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-    st.plotly_chart(fig, use_container_width=True)
-
-# PDC Distribution
-st.header("PDC Distribution Analysis")
+# PDC Distribution Analysis
+st.header("PDC Distribution")
 
 # Filter for denominator gaps with valid PDC
 pdc_analysis_df = current_data[(current_data['OneFillCode'].isnull()) & (current_data['PDCNbr'].notnull())]
