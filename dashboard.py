@@ -35,7 +35,7 @@ def get_bigquery_client():
         )
     else:
         # Try local TOML file
-        toml_path = "config.toml"  # Adjust path as needed
+        toml_path = ".streamlit\secrets.toml"  # Adjust path as needed
         if os.path.exists(toml_path):
             config = toml.load(toml_path)
             if 'gcp' in config:
