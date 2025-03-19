@@ -71,7 +71,7 @@ def get_available_weeks(num_weeks=12):
         EXTRACT(YEAR FROM DataAsOfDate) AS Year,
         MAX(DataAsOfDate) AS LastDataAsOfDate
     FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
-    WHERE DataAsOfDate IS NOT NULL
+    GROUP BY WeekNumber, Year
     ORDER BY DataAsOfDate DESC
     LIMIT {num_weeks}
     """
