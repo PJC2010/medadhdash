@@ -54,7 +54,7 @@ def get_bigquery_client():
 
 # Initialize BigQuery client
 try:
-    client = get_bigquery_client()
+    BigQueryConnector = get_bigquery_client()
     st.success("Connected to BigQuery successfully!")
 except Exception as e:
     st.error(f"Failed to connect to BigQuery: {str(e)}")
@@ -62,11 +62,7 @@ except Exception as e:
 
 
 
-try:
-    bq = get_bigquery_client()
-except Exception as e:
-    st.error(f"Failed to connect to BigQuery: {str(e)}")
-    st.stop()
+
 
 
 # Sidebar filters
@@ -75,7 +71,7 @@ st.sidebar.title("Dashboard Filters")
 # Get available weeks for selection
 @st.cache_data(ttl=3600)
 def load_available_weeks():
-    return bq.get_latest_weeks(num_weeks=12)
+    return BigQueryConnector.get_latest_weeks(num_weeks=12)
 
 weeks_df = load_available_weeks()
 weeks_options = [f"Week {row['WeekNumber']}, {row['Year']}" for _, row in weeks_df.iterrows()]
@@ -97,7 +93,7 @@ prev_week_date = prev_week['LastDataAsOfDate']
 # Measure type filter
 @st.cache_data(ttl=3600)
 def load_measure_types():
-    return bq.get_distinct_values("MedAdherenceMeasureCode")
+    return BigQueryConnector.get_distinct_values("MedAdherenceMeasureCode")
 
 measure_types = load_measure_types()
 selected_measures = st.sidebar.multiselect(
@@ -109,7 +105,7 @@ selected_measures = st.sidebar.multiselect(
 # Market code filter
 @st.cache_data(ttl=3600)
 def load_market_codes():
-    return bq.get_distinct_values("MarketCode")
+    return BigQueryConnector.get_distinct_values("MarketCode")
 
 market_codes = load_market_codes()
 selected_markets = st.sidebar.multiselect(
@@ -121,7 +117,7 @@ selected_markets = st.sidebar.multiselect(
 # Payer code filter
 @st.cache_data(ttl=3600)
 def load_payer_codes():
-    return bq.get_distinct_values("PayerCode")
+    return BigQueryConnector.get_distinct_values("PayerCode")
 
 payer_codes = load_payer_codes()
 selected_payers = st.sidebar.multiselect(
@@ -137,7 +133,7 @@ def load_data(date, measure_codes=None, market_codes=None, payer_codes=None):
     start_date = date - timedelta(days=7)
     end_date = date
     
-    return bq.get_med_adherence_data(
+    return BigQueryConnector.get_med_adherence_data(
         start_date=start_date,
         end_date=end_date,
         measure_codes=measure_codes if measure_codes else None,
