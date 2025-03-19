@@ -3,6 +3,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
+from google.oauth2 import service_account
+from google.cloud import bigquery
 from datetime import datetime, timedelta
 import os
 from utils.data_loader import BigQueryConnector
@@ -24,8 +26,10 @@ st.set_page_config(
 # Connect to BigQuery
 @st.cache_resource
 def get_bigquery_connector():
-    credentials_path = os.path.join(os.path.dirname(__file__), "auth", "medadhdata2025-47d6f2bb49b8.json")
-    return BigQueryConnector(credentials_path)
+    
+    credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"]
+)
+client = bigquery.Client(credentials=credentials)
 
 bq = get_bigquery_connector()
 
