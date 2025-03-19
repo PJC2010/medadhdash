@@ -71,7 +71,7 @@ def get_available_weeks(num_weeks=12):
         MAX(DataAsOfDate) AS LastDataAsOfDate
     FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
     GROUP BY  WeekNumber, Year
-    ORDER BY DataAsOfDate DESC
+    ORDER BY WeekNumber DESC
     LIMIT {num_weeks}
     """
     return run_query(query)
@@ -113,7 +113,7 @@ def get_med_adherence_data(start_date=None, end_date=None, measure_codes=None, m
         NDCDesc
     FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
         {where_clause}
-        ORDER BY DataAsOfDate DESC
+        ORDER BY WeekNumber DESC
     """
     
     return run_query(query)
