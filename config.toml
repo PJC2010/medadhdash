@@ -1,3 +1,4 @@
+[gcp]
 type = "service_account"
 project_id = "medadhdata2025"
 private_key_id = "47d6f2bb49b8b09b54533ffe708e6e63c64d6329"
