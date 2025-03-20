@@ -113,7 +113,7 @@ def get_med_adherence_data(start_date=None, end_date=None, measure_codes=None, m
         NDCDesc
     FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
         {where_clause}
-        ORDER BY WeekNumber DESC
+        ORDER BY DataAsOfDate DESC
     """
     
     return run_query(query)
@@ -190,12 +190,12 @@ selected_week_index = st.sidebar.selectbox(
 
 # Get current and previous week
 current_week = weeks_df.iloc[selected_week_index]
-current_week_date = current_week['WeekNumber']
+current_week_date = current_week['LastDataAsOfDate']
 
 # Get previous week for comparison
 prev_week_index = min(selected_week_index + 1, len(weeks_df) - 1) 
 prev_week = weeks_df.iloc[prev_week_index]
-prev_week_date = prev_week['WeekNumber']
+prev_week_date = prev_week['LastDataAsOfDate']
 
 # Measure type filter
 measure_types = get_distinct_values("MedAdherenceMeasureCode")
