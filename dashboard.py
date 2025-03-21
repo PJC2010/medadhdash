@@ -145,7 +145,8 @@ def calculate_metrics(df):
             'mah_count': 0,
             'mad_count': 0,
             'one_fill_count': 0,
-            'denominator_gap_count': 0
+            'denominator_gap_count': 0,
+            'measure_counts': {}
         }
     
     metrics = {}
@@ -159,6 +160,9 @@ def calculate_metrics(df):
     metrics['mac_count'] = measure_counts.get('MAC', 0)
     metrics['mah_count'] = measure_counts.get('MAH', 0)
     metrics['mad_count'] = measure_counts.get('MAD', 0)
+    
+    # Store full measure counts dictionary
+    metrics['measure_counts'] = measure_counts
     
     # Count one-fills vs denominator gaps
     one_fill_df = df[df['OneFillCode'] == 'Yes']
@@ -296,7 +300,19 @@ else:
     st.success(f"Loaded {len(current_data):,} records for the selected week.")
 
 # Dashboard Header
-st.markdown(f"**Current Week: {current_week_date.strftime('%Y-%m-%d')}**")
+st.markdown(f"**Current Week: Week of {current_week_date.strftime('%Y-%m-%d')}**")
+
+# Add summary of applied filters
+filters_applied = []
+if selected_measures and len(selected_measures) < len(measure_types):
+    filters_applied.append(f"Measures: {', '.join(selected_measures)}")
+if selected_markets:
+    filters_applied.append(f"Markets: {', '.join(selected_markets)}")
+if selected_payers:
+    filters_applied.append(f"Payers: {', '.join(selected_payers)}")
+
+if filters_applied:
+    st.markdown("**Applied Filters:** " + " | ".join(filters_applied))
 
 # KPI Cards Row
 col1, col2, col3, col4 = st.columns(4)
@@ -347,10 +363,25 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Measure Type Donut Chart
-    measure_data = pd.DataFrame({
-        'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
-        'Count': [current_metrics['mac_count'], current_metrics['mah_count'], current_metrics['mad_count']]
-    })
+    if 'measure_counts' in current_metrics and current_metrics['measure_counts']:
+        # Create DataFrame from the full measure counts dictionary
+        measure_counts = current_metrics['measure_counts']
+        measure_labels = {
+            'MAC': 'MAC (Cholesterol)',
+            'MAH': 'MAH (Hypertension)',
+            'MAD': 'MAD (Diabetes)'
+        }
+        
+        measure_data = pd.DataFrame({
+            'Measure': [measure_labels.get(key, key) for key in measure_counts.keys()],
+            'Count': list(measure_counts.values())
+        })
+    else:
+        # Fallback to standard measures if no counts available
+        measure_data = pd.DataFrame({
+            'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
+            'Count': [current_metrics['mac_count'], current_metrics['mah_count'], current_metrics['mad_count']]
+        })
     
     fig = px.pie(
         measure_data,
@@ -366,8 +397,26 @@ with col1:
         fig.update_traces(textinfo='percent+label')
     else:
         fig.update_traces(textinfo='none')
-        
+    
+    # Add count information to hover
+    fig.update_traces(hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent:.1%}<extra></extra>')
+    
     st.plotly_chart(fig, use_container_width=True)
+    
+    # Display count table below the chart
+    if measure_data['Count'].sum() > 0:
+        st.markdown("#### Measure Counts")
+        st.dataframe(
+            measure_data,
+            hide_index=True,
+            column_config={
+                "Measure": st.column_config.TextColumn("Measure Type"),
+                "Count": st.column_config.NumberColumn(
+                    "Count",
+                    format="%d"
+                )
+            }
+        )
 
 with col2:
     # PDC Average by Measure Type
