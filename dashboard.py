@@ -181,16 +181,39 @@ def calculate_average_pdc(df):
     
     # Calculate average PDC by measure type
     if not pdc_df.empty:
+        # Get average PDC for each measure type
         avg_pdc = pdc_df.groupby('MedAdherenceMeasureCode')['PDCNbr'].mean().to_dict()
+        
+        # Also calculate count and std deviation for each measure
+        count_pdc = pdc_df.groupby('MedAdherenceMeasureCode')['PDCNbr'].count().to_dict()
+        std_pdc = pdc_df.groupby('MedAdherenceMeasureCode')['PDCNbr'].std().to_dict()
+        
+        # Calculate compliance rate (PDC >= 0.8) for each measure
+        compliant_counts = {}
+        for measure in avg_pdc.keys():
+            measure_df = pdc_df[pdc_df['MedAdherenceMeasureCode'] == measure]
+            compliant_counts[measure] = (measure_df['PDCNbr'] >= 0.8).sum() / len(measure_df) if len(measure_df) > 0 else 0
     else:
         avg_pdc = {}
+        count_pdc = {}
+        std_pdc = {}
+        compliant_counts = {}
     
-    # Ensure all measure types have values (even if zero)
+    # Ensure standard measure types have values (even if zero)
     for measure in ['MAC', 'MAH', 'MAD']:
         if measure not in avg_pdc:
             avg_pdc[measure] = 0
+            count_pdc[measure] = 0
+            std_pdc[measure] = 0
+            compliant_counts[measure] = 0
     
-    return avg_pdc
+    # Return dictionary with all PDC statistics
+    return {
+        'avg': avg_pdc,
+        'count': count_pdc,
+        'std': std_pdc,
+        'compliance_rate': compliant_counts
+    }
 
 # Calculate percent change safely
 def calculate_percent_change(current, previous):
@@ -285,7 +308,8 @@ progress_bar.progress(75)
 # Process data
 current_metrics = calculate_metrics(current_data)
 prev_metrics = calculate_metrics(prev_data)
-average_pdc = calculate_average_pdc(current_data)
+pdc_statistics = calculate_average_pdc(current_data)
+average_pdc = pdc_statistics['avg']  # For backward compatibility
 progress_bar.progress(100)
 
 # Remove progress indicators
@@ -419,34 +443,60 @@ with col1:
         )
 
 with col2:
-    # PDC Average by Measure Type
-    pdc_data = pd.DataFrame({
-        'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
-        'Average PDC': [average_pdc.get('MAC', 0), average_pdc.get('MAH', 0), average_pdc.get('MAD', 0)]
-    })
+    # PDC Average by Measure Type - using all measures present in the data
+    if 'measure_counts' in current_metrics and current_metrics['measure_counts']:
+        # Get all measures present in the data
+        measure_codes = list(current_metrics['measure_counts'].keys())
+        measure_labels = {
+            'MAC': 'MAC (Cholesterol)',
+            'MAH': 'MAH (Hypertension)',
+            'MAD': 'MAD (Diabetes)'
+        }
+        
+        # Create data for the chart
+        pdc_data = pd.DataFrame({
+            'Measure': [measure_labels.get(code, code) for code in measure_codes],
+            'Average PDC': [average_pdc.get(code, 0) for code in measure_codes]
+        })
+    else:
+        # Fallback to standard measures
+        pdc_data = pd.DataFrame({
+            'Measure': ['MAC (Cholesterol)', 'MAH (Hypertension)', 'MAD (Diabetes)'],
+            'Average PDC': [average_pdc.get('MAC', 0), average_pdc.get('MAH', 0), average_pdc.get('MAD', 0)]
+        })
     
+    # Add compliance rate to the data
+    pdc_data['Compliance Rate'] = [pdc_statistics['compliance_rate'].get(code, 0) 
+                                 for code in pdc_statistics['avg'].keys()]
+    
+    # Create a more informative bar chart with both average PDC and compliance rate
     fig = px.bar(
         pdc_data,
         x='Measure',
         y='Average PDC',
-        title="Average PDC by Measure Type (Denominator Gaps Only)",
+        title="PDC Statistics by Measure Type (Denominator Gaps Only)",
         color='Measure',
         text_auto='.2f',
-        color_discrete_sequence=px.colors.qualitative.Safe
+        color_discrete_sequence=px.colors.qualitative.Safe,
+        hover_data={
+            'Measure': True,
+            'Average PDC': ':.2f',
+            'Compliance Rate': ':.1%'
+        }
     )
     
     # Add 80% threshold line
     fig.add_shape(
         type="line",
         x0=-0.5,
-        x1=2.5,
+        x1=len(pdc_data) - 0.5,
         y0=0.8,
         y1=0.8,
         line=dict(color="red", width=2, dash="dash"),
     )
     
     fig.add_annotation(
-        x=2.5,
+        x=len(pdc_data) - 0.5,
         y=0.8,
         text="80% PDC Threshold",
         showarrow=False,
@@ -457,6 +507,37 @@ with col2:
     
     fig.update_layout(yaxis_range=[0, 1])
     st.plotly_chart(fig, use_container_width=True)
+    
+    # Add a data table with detailed PDC statistics
+    if not pdc_data.empty and pdc_data['Average PDC'].sum() > 0:
+        st.markdown("#### PDC Statistics by Measure")
+        
+        # Create detailed statistics table
+        stats_data = pd.DataFrame({
+            'Measure': pdc_data['Measure'],
+            'Count': [pdc_statistics['count'].get(code, 0) for code in pdc_statistics['avg'].keys()],
+            'Average PDC': pdc_data['Average PDC'],
+            'Std Deviation': [pdc_statistics['std'].get(code, 0) for code in pdc_statistics['avg'].keys()],
+            'Compliance Rate': pdc_data['Compliance Rate']
+        })
+        
+        st.dataframe(
+            stats_data,
+            hide_index=True,
+            column_config={
+                "Measure": st.column_config.TextColumn("Measure Type"),
+                "Count": st.column_config.NumberColumn("Count", format="%d"),
+                "Average PDC": st.column_config.NumberColumn("Average PDC", format="%.2f"),
+                "Std Deviation": st.column_config.NumberColumn("Std Deviation", format="%.3f"),
+                "Compliance Rate": st.column_config.ProgressColumn(
+                    "Compliance Rate",
+                    format="%.1f%%",
+                    min_value=0,
+                    max_value=1.0,
+                    help="Percentage of patients with PDC ≥ 80%"
+                )
+            }
+        )
 
 # PDC Distribution Analysis
 st.header("PDC Distribution")
@@ -464,56 +545,113 @@ st.header("PDC Distribution")
 # Filter for denominator gaps with valid PDC
 pdc_analysis_df = current_data[(current_data['OneFillCode'].isnull()) & (current_data['PDCNbr'].notnull())]
 
-if not pdc_analysis_df.empty:
-    # Create PDC distribution histogram
-    fig = px.histogram(
-        pdc_analysis_df,
-        x='PDCNbr',
-        color='MedAdherenceMeasureCode',
-        title="PDC Distribution for Denominator Gaps",
-        nbins=20,
-        histnorm='percent',
-        barmode='overlay',
-        opacity=0.7,
-        color_discrete_sequence=px.colors.qualitative.Safe
-    )
-    
-    # Add 80% threshold line
-    fig.add_shape(
-        type="line",
-        x0=0.8,
-        x1=0.8,
-        y0=0,
-        y1=1,
-        yref="paper",
-        line=dict(color="red", width=2, dash="dash"),
-    )
-    
-    fig.add_annotation(
-        x=0.8,
-        y=1,
-        text="80% PDC Threshold",
-        showarrow=False,
-        yshift=10,
-        xshift=10,
-        font=dict(color="red")
-    )
-    
-    fig.update_layout(xaxis_title="PDC Value", yaxis_title="Percentage")
-    st.plotly_chart(fig, use_container_width=True)
-else:
-    st.info("No valid PDC data available for analysis with current filters.")
-    # Create an empty histogram to maintain layout
-    empty_df = pd.DataFrame({'PDCNbr': [0], 'MedAdherenceMeasureCode': ['No Data']})
-    fig = px.histogram(
-        empty_df,
-        x='PDCNbr',
-        color='MedAdherenceMeasureCode',
-        title="PDC Distribution for Denominator Gaps (No Data Available)",
-        nbins=20
-    )
-    fig.update_layout(xaxis_range=[0, 1], yaxis_range=[0, 1])
-    st.plotly_chart(fig, use_container_width=True)
+col1, col2 = st.columns(2)
+
+with col1:
+    if not pdc_analysis_df.empty:
+        # Create PDC distribution histogram
+        fig = px.histogram(
+            pdc_analysis_df,
+            x='PDCNbr',
+            color='MedAdherenceMeasureCode',
+            title="PDC Distribution for Denominator Gaps",
+            nbins=20,
+            histnorm='percent',
+            barmode='overlay',
+            opacity=0.7,
+            color_discrete_sequence=px.colors.qualitative.Safe
+        )
+        
+        # Add 80% threshold line
+        fig.add_shape(
+            type="line",
+            x0=0.8,
+            x1=0.8,
+            y0=0,
+            y1=1,
+            yref="paper",
+            line=dict(color="red", width=2, dash="dash"),
+        )
+        
+        fig.add_annotation(
+            x=0.8,
+            y=1,
+            text="80% PDC Threshold",
+            showarrow=False,
+            yshift=10,
+            xshift=10,
+            font=dict(color="red")
+        )
+        
+        fig.update_layout(xaxis_title="PDC Value", yaxis_title="Percentage")
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info("No valid PDC data available for analysis with current filters.")
+        # Create an empty histogram to maintain layout
+        empty_df = pd.DataFrame({'PDCNbr': [0], 'MedAdherenceMeasureCode': ['No Data']})
+        fig = px.histogram(
+            empty_df,
+            x='PDCNbr',
+            color='MedAdherenceMeasureCode',
+            title="PDC Distribution for Denominator Gaps (No Data Available)",
+            nbins=20
+        )
+        fig.update_layout(xaxis_range=[0, 1], yaxis_range=[0, 1])
+        st.plotly_chart(fig, use_container_width=True)
+
+with col2:
+    if not pdc_analysis_df.empty:
+        # Calculate the count of members above/below 80% PDC
+        pdc_threshold = 0.80
+        compliant_count = (pdc_analysis_df['PDCNbr'] >= pdc_threshold).sum()
+        non_compliant_count = (pdc_analysis_df['PDCNbr'] < pdc_threshold).sum()
+        total_count = len(pdc_analysis_df)
+        
+        compliance_data = pd.DataFrame({
+            'Status': ['Compliant (PDC ≥ 80%)', 'Non-Compliant (PDC < 80%)'],
+            'Count': [compliant_count, non_compliant_count],
+            'Percent': [compliant_count/total_count*100, non_compliant_count/total_count*100]
+        })
+        
+        # Create compliance pie chart
+        fig = px.pie(
+            compliance_data,
+            values='Count',
+            names='Status',
+            title="PDC Compliance Status",
+            color_discrete_sequence=['#00CC96', '#EF553B'],
+            hole=0.4,
+        )
+        
+        # Add percentages to the labels
+        fig.update_traces(
+            texttemplate='%{label}<br>%{percent:.1%}',
+            hovertemplate='<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent:.1%}<extra></extra>'
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Show compliance stats
+        st.metric(
+            "Compliance Rate", 
+            f"{compliant_count/total_count:.1%}",
+            help="Percentage of patients with PDC ≥ 80%"
+        )
+    else:
+        st.info("No PDC data available to calculate compliance rates.")
+        # Create empty pie chart
+        empty_df = pd.DataFrame({
+            'Status': ['No Data'],
+            'Count': [1]
+        })
+        fig = px.pie(
+            empty_df,
+            values='Count',
+            names='Status',
+            title="PDC Compliance Status (No Data Available)",
+            hole=0.4
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
 # Market Analysis (if markets are selected)
 if selected_markets:
