@@ -427,14 +427,16 @@ with col1:
     
     st.plotly_chart(fig, use_container_width=True)
     
-    # Display count table below the chart
+    # Display count table below the chart as markdown
     if measure_data['Count'].sum() > 0:
         st.markdown("#### Measure Counts")
-        # Simplified dataframe display without custom column config
-        st.dataframe(
-            measure_data,
-            hide_index=True
-        )
+        
+        # Create a markdown table instead of dataframe
+        measure_table = "| Measure | Count |\n| --- | --- |\n"
+        for _, row in measure_data.iterrows():
+            measure_table += f"| {row['Measure']} | {row['Count']:,} |\n"
+        
+        st.markdown(measure_table)
 
 with col2:
     # PDC Average by Measure Type - using all measures present in the data
@@ -502,27 +504,21 @@ with col2:
     fig.update_layout(yaxis_range=[0, 1])
     st.plotly_chart(fig, use_container_width=True)
     
-    # Add a data table with detailed PDC statistics
+    # Add a markdown table with detailed PDC statistics
     if not pdc_data.empty and pdc_data['Average PDC'].sum() > 0:
         st.markdown("#### PDC Statistics by Measure")
         
-        # Create detailed statistics table
-        stats_data = pd.DataFrame({
-            'Measure': pdc_data['Measure'],
-            'Count': [pdc_statistics['count'].get(code, 0) for code in pdc_statistics['avg'].keys()],
-            'Average PDC': pdc_data['Average PDC'],
-            'Std Deviation': [pdc_statistics['std'].get(code, 0) for code in pdc_statistics['avg'].keys()],
-            'Compliance Rate': pdc_data['Compliance Rate']
-        })
+        # Create detailed statistics table as markdown
+        stats_table = "| Measure | Count | Average PDC | Std Deviation | Compliance Rate |\n"
+        stats_table += "| --- | --- | --- | --- | --- |\n"
         
-        # Format the compliance rate as percentage string for simpler display
-        stats_data['Compliance Rate'] = stats_data['Compliance Rate'].apply(lambda x: f"{x:.1%}")
+        for i, row in pdc_data.iterrows():
+            measure_code = list(pdc_statistics['avg'].keys())[i]
+            stats_table += f"| {row['Measure']} | {pdc_statistics['count'].get(measure_code, 0):,} | "
+            stats_table += f"{row['Average PDC']:.2f} | {pdc_statistics['std'].get(measure_code, 0):.3f} | "
+            stats_table += f"{row['Compliance Rate']:.1%} |\n"
         
-        # Simplified dataframe display without custom column config
-        st.dataframe(
-            stats_data,
-            hide_index=True
-        )
+        st.markdown(stats_table)
 
 # PDC Distribution Analysis
 st.header("PDC Distribution")
@@ -685,6 +681,17 @@ if selected_markets:
         )
         fig.update_layout(yaxis_range=[0, 1])
         st.plotly_chart(fig, use_container_width=True)
+        
+        # Display market data as markdown
+        st.markdown("#### Market Analysis Data")
+        market_table = "| Market | Total Gaps | Unique Patients | One-Fill Count | Avg PDC |\n"
+        market_table += "| --- | --- | --- | --- | --- |\n"
+        
+        for _, row in market_analysis.iterrows():
+            market_table += f"| {row['MarketCode']} | {row['TotalGaps']:,} | {row['UniquePatients']:,} | "
+            market_table += f"{row['OneFillCount']:,} | {row['AvgPDC']:.2f} |\n"
+        
+        st.markdown(market_table)
     else:
         st.info("No data available for the selected markets.")
 
@@ -714,18 +721,22 @@ if selected_payers:
             text_auto=True
         )
         st.plotly_chart(fig, use_container_width=True)
+        
+        # Display payer data as markdown
+        st.markdown("#### Payer Analysis Data")
+        payer_table = "| Payer | Total Gaps | Unique Patients | One-Fill Count | Avg PDC |\n"
+        payer_table += "| --- | --- | --- | --- | --- |\n"
+        
+        for _, row in payer_analysis.iterrows():
+            payer_table += f"| {row['PayerCode']} | {row['TotalGaps']:,} | {row['UniquePatients']:,} | "
+            payer_table += f"{row['OneFillCount']:,} | {row['AvgPDC']:.2f} |\n"
+        
+        st.markdown(payer_table)
     else:
         st.info("No data available for the selected payers.")
 
 # Footer with download option
 st.markdown("---")
 if not current_data.empty:
-    st.download_button(
-        label="Download Current Data as CSV",
-        data=current_data.to_csv(index=False).encode('utf-8'),
-        file_name=f'med_adherence_data_{current_week_date.strftime("%Y-%m-%d")}.csv',
-        mime='text/csv',
-    )
-
-# Display data timestamp
-st.markdown(f"Data last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    csv = current_data.to_csv(index=False).encode('utf-8')
+    st.download_button
