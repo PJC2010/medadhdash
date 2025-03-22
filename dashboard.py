@@ -430,16 +430,10 @@ with col1:
     # Display count table below the chart
     if measure_data['Count'].sum() > 0:
         st.markdown("#### Measure Counts")
+        # Simplified dataframe display without custom column config
         st.dataframe(
             measure_data,
-            hide_index=True,
-            column_config={
-                "Measure": st.column_config.TextColumn("Measure Type"),
-                "Count": st.column_config.NumberColumn(
-                    "Count",
-                    format="%d"
-                )
-            }
+            hide_index=True
         )
 
 with col2:
@@ -521,22 +515,13 @@ with col2:
             'Compliance Rate': pdc_data['Compliance Rate']
         })
         
+        # Format the compliance rate as percentage string for simpler display
+        stats_data['Compliance Rate'] = stats_data['Compliance Rate'].apply(lambda x: f"{x:.1%}")
+        
+        # Simplified dataframe display without custom column config
         st.dataframe(
             stats_data,
-            hide_index=True,
-            column_config={
-                "Measure": st.column_config.TextColumn("Measure Type"),
-                "Count": st.column_config.NumberColumn("Count", format="%d"),
-                "Average PDC": st.column_config.NumberColumn("Average PDC", format="%.2f"),
-                "Std Deviation": st.column_config.NumberColumn("Std Deviation", format="%.3f"),
-                "Compliance Rate": st.column_config.ProgressColumn(
-                    "Compliance Rate",
-                    format="%.1f%%",
-                    min_value=0,
-                    max_value=1.0,
-                    help="Percentage of patients with PDC ≥ 80%"
-                )
-            }
+            hide_index=True
         )
 
 # PDC Distribution Analysis
