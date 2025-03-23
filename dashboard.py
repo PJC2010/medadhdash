@@ -735,8 +735,4 @@ if selected_payers:
     else:
         st.info("No data available for the selected payers.")
 
-# Footer with download option
-st.markdown("---")
-if not current_data.empty:
-    csv = current_data.to_csv(index=False).encode('utf-8')
-    st.download_button
+# Footer with download 
