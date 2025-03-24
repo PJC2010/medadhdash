@@ -156,7 +156,7 @@ def calculate_metrics(df):
     metrics['total_upids'] = df['UPID'].nunique()
     
     # Categorize by measure type
-    measure_counts = df['MedAdherenceMeasureCode'].value_counts().to_dict()
+    measure_counts = df['MedAdherenceMeasureCode'].count().to_dict()
     metrics['mac_count'] = measure_counts.get('MAC', 0)
     metrics['mah_count'] = measure_counts.get('MAH', 0)
     metrics['mad_count'] = measure_counts.get('MAD', 0)
@@ -223,7 +223,7 @@ def calculate_percent_change(current, previous):
 
 # Title and intro
 st.title("Medication Adherence Dashboard")
-st.markdown("This dashboard tracks gaps in medication adherence for patients with cholesterol, diabetes, and hypertension prescriptions.")
+st.markdown("This dashboard tracks gaps in medication adherence for patients with cholesterol, diabetes, and hypertension medications.")
 
 # Load weeks data
 with st.spinner("Loading dashboard data..."):
