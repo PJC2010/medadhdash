@@ -170,6 +170,379 @@ def calculate_metrics(df):
     metrics['denominator_gap_count'] = len(df[df['OneFillCode'].isnull()])
     
     return metrics
+@st.cache_data(ttl=3600)  # Cache for 1 hour
+def get_month_over_month_data(lookback_months=6, measure_codes=None, market_codes=None, payer_codes=None):
+    """
+    Get month-over-month trend data for medication adherence metrics
+    
+    Args:
+        lookback_months: Number of months to look back from current date
+        measure_codes: List of measure codes to filter by
+        market_codes: List of market codes to filter by
+        payer_codes: List of payer codes to filter by
+    
+    Returns:
+        DataFrame with monthly trend data
+    """
+    # Build query filters
+    filters = [f"WeekOf >= DATE_SUB(CURRENT_DATE(), INTERVAL {lookback_months} MONTH)"]
+    
+    if measure_codes and len(measure_codes) > 0:
+        measure_list = "', '".join(measure_codes)
+        filters.append(f"MedAdherenceMeasureCode IN ('{measure_list}')")
+    
+    if market_codes and len(market_codes) > 0:
+        market_list = "', '".join(market_codes)
+        filters.append(f"MarketCode IN ('{market_list}')")
+    
+    if payer_codes and len(payer_codes) > 0:
+        payer_list = "', '".join(payer_codes)
+        filters.append(f"PayerCode IN ('{payer_list}')")
+    
+    where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
+    
+    query = f"""
+    SELECT 
+        EXTRACT(MONTH FROM WeekOf) AS Month,
+        EXTRACT(YEAR FROM WeekOf) AS Year,
+        FORMAT_DATE('%b %Y', DATE_TRUNC(WeekOf, MONTH)) AS MonthLabel,
+        DATE_TRUNC(WeekOf, MONTH) AS MonthDate,
+        MedAdherenceMeasureCode,
+        COUNT(DISTINCT UGID) AS TotalGaps,
+        COUNT(DISTINCT UPID) AS UniquePatients,
+        COUNTIF(OneFillCode = 'Yes') AS OneFillCount,
+        AVG(IF(OneFillCode IS NULL AND PDCNbr IS NOT NULL, PDCNbr, NULL)) AS AvgPDC,
+        COUNTIF(PDCNbr >= 0.8 AND OneFillCode IS NULL AND PDCNbr IS NOT NULL) / 
+        NULLIF(COUNTIF(OneFillCode IS NULL AND PDCNbr IS NOT NULL), 0) AS ComplianceRate
+    FROM `medadhdata2025.adherence_tracking.weekly_med_adherence_data`
+    {where_clause}
+    GROUP BY Month, Year, MonthLabel, MonthDate, MedAdherenceMeasureCode
+    ORDER BY Year, Month, MedAdherenceMeasureCode
+    """
+    
+    return run_query(query)
+def get_star_thresholds():
+    """Return the CMS Star Rating thresholds for medication adherence measures"""
+    return {
+        "MAC": {  # Medication adherence for cholesterol (statins)
+            "2_star": 0.84,  # 84%
+            "3_star": 0.89,  # 89%
+            "4_star": 0.91,  # 91%
+            "5_star": 0.93   # 93%
+        },
+        "MAH": {  # Medication adherence for hypertension (RAS antagonists)
+            "2_star": 0.84,  # 84%
+            "3_star": 0.88,  # 88%
+            "4_star": 0.91,  # 91%
+            "5_star": 0.93   # 93%
+        },
+        "MAD": {  # Medication adherence for diabetes medication
+            "2_star": 0.82,  # 82%
+            "3_star": 0.86,  # 86%
+            "4_star": 0.90,  # 90%
+            "5_star": 0.92   # 92%
+        }
+    }
+def create_monthly_trend_chart(df, metric="AvgPDC", include_thresholds=True):
+    """
+    Create a line chart showing month-over-month trends by measure type
+    
+    Args:
+        df: DataFrame with monthly data
+        metric: Which metric to plot ("AvgPDC" or "ComplianceRate")
+        include_thresholds: Whether to include star rating thresholds
+    
+    Returns:
+        Plotly figure object
+    """
+    if df.empty:
+        # Return empty figure if no data
+        fig = go.Figure()
+        fig.update_layout(
+            title="No monthly trend data available",
+            xaxis_title="Month",
+            yaxis_title="Value"
+        )
+        return fig
+    
+    # Create figure
+    fig = go.Figure()
+    
+    # Get the measure codes in the data
+    measures = df["MedAdherenceMeasureCode"].unique()
+    
+    # Color mapping
+    colors = {
+        "MAC": "#636EFA",  # Blue
+        "MAH": "#00CC96",  # Green
+        "MAD": "#FFA15A"   # Orange
+    }
+    
+    # Measure labels for legend
+    measure_labels = {
+        "MAC": "MAC (Cholesterol)",
+        "MAH": "MAH (Hypertension)",
+        "MAD": "MAD (Diabetes)"
+    }
+    
+    # Add a line for each measure
+    for measure in measures:
+        measure_data = df[df["MedAdherenceMeasureCode"] == measure].copy()
+        
+        # Convert MonthDate to datetime for proper sorting
+        if 'MonthDate' in measure_data.columns:
+            measure_data['MonthDate'] = pd.to_datetime(measure_data['MonthDate'])
+            measure_data = measure_data.sort_values("MonthDate")
+        else:
+            # Sort by MonthLabel if MonthDate is not available
+            measure_data = measure_data.sort_values("MonthLabel")
+        
+        fig.add_trace(go.Scatter(
+            x=measure_data["MonthLabel"],
+            y=measure_data[metric],
+            mode="lines+markers",
+            name=measure_labels.get(measure, measure),
+            line=dict(color=colors.get(measure, "#636EFA"), width=3),
+            marker=dict(size=8)
+        ))
+    
+    # Add threshold lines if requested and we're plotting AvgPDC
+    if include_thresholds and metric == "AvgPDC":
+        # Get star thresholds
+        star_thresholds = get_star_thresholds()
+        
+        # Add threshold lines for each measure
+        for measure in measures:
+            if measure in star_thresholds:
+                thresholds = star_thresholds[measure]
+                
+                # 3-star threshold (dotted line)
+                fig.add_shape(
+                    type="line",
+                    x0=0,
+                    x1=len(df["MonthLabel"].unique()) - 1,
+                    y0=thresholds["3_star"],
+                    y1=thresholds["3_star"],
+                    line=dict(color=colors.get(measure, "#636EFA"), width=1.5, dash="dot"),
+                    xref="x domain",
+                    yref="y"
+                )
+                
+                # 4-star threshold (dashed line)
+                fig.add_shape(
+                    type="line",
+                    x0=0,
+                    x1=len(df["MonthLabel"].unique()) - 1,
+                    y0=thresholds["4_star"],
+                    y1=thresholds["4_star"],
+                    line=dict(color=colors.get(measure, "#636EFA"), width=1.5, dash="dash"),
+                    xref="x domain",
+                    yref="y"
+                )
+                
+                # 5-star threshold (solid line)
+                fig.add_shape(
+                    type="line",
+                    x0=0,
+                    x1=len(df["MonthLabel"].unique()) - 1,
+                    y0=thresholds["5_star"],
+                    y1=thresholds["5_star"],
+                    line=dict(color=colors.get(measure, "#636EFA"), width=1.5),
+                    xref="x domain",
+                    yref="y"
+                )
+                
+                # Add annotations for the thresholds
+                fig.add_annotation(
+                    x=1,  # Right side of the chart
+                    y=thresholds["3_star"],
+                    text=f"{measure_labels.get(measure, measure)} 3★ ({thresholds['3_star']*100:.0f}%)",
+                    showarrow=False,
+                    xshift=10,
+                    xref="paper",
+                    yref="y",
+                    font=dict(color=colors.get(measure, "#636EFA"), size=10)
+                )
+                
+                fig.add_annotation(
+                    x=1,  # Right side of the chart
+                    y=thresholds["4_star"],
+                    text=f"{measure_labels.get(measure, measure)} 4★ ({thresholds['4_star']*100:.0f}%)",
+                    showarrow=False,
+                    xshift=10,
+                    xref="paper",
+                    yref="y",
+                    font=dict(color=colors.get(measure, "#636EFA"), size=10)
+                )
+                
+                fig.add_annotation(
+                    x=1,  # Right side of the chart
+                    y=thresholds["5_star"],
+                    text=f"{measure_labels.get(measure, measure)} 5★ ({thresholds['5_star']*100:.0f}%)",
+                    showarrow=False,
+                    xshift=10,
+                    xref="paper",
+                    yref="y",
+                    font=dict(color=colors.get(measure, "#636EFA"), size=10)
+                )
+    
+    # Set title based on metric
+    title = "Average PDC by Month" if metric == "AvgPDC" else "Compliance Rate by Month"
+    if include_thresholds and metric == "AvgPDC":
+        title += " (with Star Rating Thresholds)"
+    
+    # Update layout
+    fig.update_layout(
+        title=title,
+        xaxis_title="Month",
+        yaxis_title="PDC Value" if metric == "AvgPDC" else "Compliance Rate",
+        yaxis=dict(
+            range=[0.75, 1.0],  # Set y-axis range to focus on relevant values
+            tickformat=".0%"    # Format as percentage
+        ),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        margin=dict(l=40, r=40, t=60, b=60)
+    )
+    
+    return fig
+
+# Add this function to create the star rating comparison chart
+def create_star_rating_comparison_chart(df, metric="AvgPDC"):
+    """
+    Create a bar chart comparing current PDC values to star rating thresholds
+    
+    Args:
+        df: DataFrame with current performance data
+        metric: Which metric to plot ("AvgPDC" or "ComplianceRate")
+    
+    Returns:
+        Plotly figure object
+    """
+    if df.empty:
+        # Return empty figure if no data
+        fig = go.Figure()
+        fig.update_layout(
+            title="No data available for star rating comparison",
+            xaxis_title="Measure",
+            yaxis_title="Value"
+        )
+        return fig
+    
+    # Get star thresholds
+    star_thresholds = get_star_thresholds()
+    
+    # Create figure
+    fig = go.Figure()
+    
+    # Color mapping
+    colors = {
+        "MAC": "#636EFA",  # Blue
+        "MAH": "#00CC96",  # Green
+        "MAD": "#FFA15A"   # Orange
+    }
+    
+    # Measure labels for display
+    measure_labels = {
+        "MAC": "MAC (Cholesterol)",
+        "MAH": "MAH (Hypertension)",
+        "MAD": "MAD (Diabetes)"
+    }
+    
+    # Group by measure and get the latest data for each
+    measure_data = df.groupby("MedAdherenceMeasureCode").agg({
+        metric: "mean",  # Get the average PDC or compliance rate
+        "MonthLabel": "first"  # Just need one month label for display
+    }).reset_index()
+    
+    # X-axis categories for the chart
+    measures = measure_data["MedAdherenceMeasureCode"].tolist()
+    x_categories = [measure_labels.get(m, m) for m in measures]
+    
+    # Add bars for current values
+    fig.add_trace(go.Bar(
+        x=x_categories,
+        y=measure_data[metric],
+        name="Current Value",
+        marker_color=[colors.get(m, "#636EFA") for m in measures],
+        text=[f"{v*100:.1f}%" for v in measure_data[metric]],
+        textposition="inside",
+        textfont=dict(color="white"),
+        width=0.5
+    ))
+    
+    # Add a shape and annotation for each star threshold
+    for star_level in ["3_star", "4_star", "5_star"]:
+        star_num = star_level[0]  # Extract the number
+        
+        for i, measure in enumerate(measures):
+            if measure in star_thresholds:
+                threshold = star_thresholds[measure][star_level]
+                
+                # Line style based on star level
+                line_style = "dot" if star_num == "3" else "dash" if star_num == "4" else "solid"
+                
+                # Line color based on star level
+                line_color = "gray" if star_num == "3" else "orange" if star_num == "4" else "green"
+                
+                # Add horizontal line for this threshold for this measure
+                fig.add_shape(
+                    type="line",
+                    x0=i-0.25,
+                    x1=i+0.25,
+                    y0=threshold,
+                    y1=threshold,
+                    line=dict(color=line_color, width=2, dash=line_style),
+                )
+                
+                # Add annotation only once per threshold level
+                if i == 0:
+                    fig.add_trace(go.Scatter(
+                        x=[None],
+                        y=[None],
+                        mode="lines",
+                        name=f"{star_num}-Star Threshold",
+                        line=dict(color=line_color, width=2, dash=line_style),
+                    ))
+                
+                # Add text annotations for the thresholds
+                fig.add_annotation(
+                    x=i,
+                    y=threshold,
+                    text=f"{star_num}★: {threshold*100:.0f}%",
+                    showarrow=False,
+                    xshift=0,
+                    yshift=10,
+                    font=dict(size=10, color=line_color)
+                )
+    
+    # Update layout
+    fig.update_layout(
+        title="Current Performance vs Star Rating Thresholds",
+        xaxis_title="Measure",
+        yaxis_title="PDC Value",
+        yaxis=dict(
+            range=[0.75, 1.0],  # Set y-axis range to focus on relevant values
+            tickformat=".0%"    # Format as percentage
+        ),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        margin=dict(l=40, r=40, t=60, b=60)
+    )
+    
+    return fig
+
+
 
 # Calculate average PDC excluding one-fills and null PDC values
 def calculate_average_pdc(df):
@@ -734,5 +1107,85 @@ if selected_payers:
         st.markdown(payer_table)
     else:
         st.info("No data available for the selected payers.")
+
+st.header("Month-over-Month Trend Analysis")
+
+# Load the monthly trend data
+monthly_data = get_month_over_month_data(
+    lookback_months=6,
+    measure_codes=selected_measures,
+    market_codes=selected_markets if selected_markets else None,
+    payer_codes=selected_payers if selected_payers else None
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    # Generate and display the monthly trend chart
+    if not monthly_data.empty:
+        trend_chart = create_monthly_trend_chart(monthly_data, "AvgPDC", include_thresholds=True)
+        st.plotly_chart(trend_chart, use_container_width=True)
+    else:
+        st.info("No monthly trend data available for the selected filters.")
+
+with col2:
+    # Generate and display the star rating comparison chart
+    if not monthly_data.empty:
+        star_comparison_chart = create_star_rating_comparison_chart(monthly_data, "AvgPDC")
+        st.plotly_chart(star_comparison_chart, use_container_width=True)
+    else:
+        st.info("No data available for star rating comparison.")
+
+# Add a data table with month-over-month PDC averages if data is available
+if not monthly_data.empty:
+    st.markdown("### Month-over-Month PDC Averages")
+    
+    # Pivot the data to show months as columns
+    pivot_df = monthly_data.pivot_table(
+        index="MedAdherenceMeasureCode",
+        columns="MonthLabel",
+        values="AvgPDC",
+        aggfunc="mean"
+    ).reset_index()
+    
+    # Format the values as percentages
+    for col in pivot_df.columns:
+        if col != "MedAdherenceMeasureCode":
+            pivot_df[col] = pivot_df[col].apply(lambda x: f"{x:.1%}" if pd.notnull(x) else "-")
+    
+    # Add measure labels
+    measure_labels = {
+        "MAC": "MAC (Cholesterol)",
+        "MAH": "MAH (Hypertension)",
+        "MAD": "MAD (Diabetes)"
+    }
+    pivot_df["Measure"] = pivot_df["MedAdherenceMeasureCode"].map(lambda x: measure_labels.get(x, x))
+    
+    # Reorder columns to show Measure first
+    cols = pivot_df.columns.tolist()
+    cols.remove("MedAdherenceMeasureCode")
+    cols.remove("Measure")
+    cols = ["Measure"] + cols
+    
+    # Show the table
+    st.dataframe(pivot_df[cols], use_container_width=True)
+    
+    # Also add a note about star rating thresholds
+    st.markdown("### Star Rating Thresholds")
+    
+    # Create a DataFrame with the thresholds
+    star_thresholds = get_star_thresholds()
+    thresholds_data = []
+    
+    for measure, thresholds in star_thresholds.items():
+        thresholds_data.append({
+            "Measure": measure_labels.get(measure, measure),
+            "3-Star": f"{thresholds['3_star']:.0%}",
+            "4-Star": f"{thresholds['4_star']:.0%}",
+            "5-Star": f"{thresholds['5_star']:.0%}"
+        })
+    
+    thresholds_df = pd.DataFrame(thresholds_data)
+    st.dataframe(thresholds_df, use_container_width=True)
 
 # Footer with download 
